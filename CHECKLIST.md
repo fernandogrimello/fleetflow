@@ -36,11 +36,11 @@
 - [x] DELETE /equipment/:id
 - [ ] Upload de fotos
 - [ ] Geracao de QR Code
-- [ ] POST /rentals/checkout
-- [ ] POST /rentals/:id/checkin
-- [ ] GET /rentals
-- [ ] GET /rentals/equipment/:id
-- [ ] GET /rentals/client/:id
+- [x] POST /rentals/checkout
+- [x] POST /rentals/:id/checkin
+- [x] GET /rentals
+- [x] GET /rentals/equipment/:id
+- [x] GET /rentals/client/:id
 - [ ] POST /maintenance
 - [ ] PUT /maintenance/:id/service-order
 - [ ] PUT /maintenance/:id/release
