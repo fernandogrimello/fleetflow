@@ -12,6 +12,7 @@ import financialRoutes from './modules/financial/financial.routes'
 import metricsRoutes from './modules/metrics/metrics.routes'
 import insuranceRoutes from './modules/insurance/insurance.routes'
 import clientsRoutes from './modules/clients/clients.routes'
+import aiRoutes from './modules/ai/ai.routes'
 
 dotenv.config()
 
@@ -48,5 +49,6 @@ app.use('/financial', financialRoutes)
 app.use('/metrics', metricsRoutes)
 app.use('/insurance', insuranceRoutes)
 app.use('/clients', clientsRoutes)
+app.use('/ai', aiRoutes)
 
 export default app
