@@ -52,10 +52,10 @@
 - [x] GET /metrics/occupancy
 - [x] GET /metrics/maintenance-cost
 - [x] GET /metrics/roi
-- [ ] POST /insurance
-- [ ] GET /insurance/equipment/:id
-- [ ] POST /insurance/:id/claim
-- [ ] Alertas de vencimento
+- [x] POST /insurance
+- [x] GET /insurance/equipment/:id
+- [x] POST /insurance/:id/claim
+- [x] Alertas de vencimento
 - [ ] Integrar Gemini API
 - [ ] Previsao de proxima manutencao
 - [ ] Candidatos a baixa
