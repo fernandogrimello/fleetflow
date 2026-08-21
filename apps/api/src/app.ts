@@ -3,6 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import authRoutes from './modules/auth/auth.routes'
 
 dotenv.config()
 
@@ -27,5 +28,7 @@ app.use(express.urlencoded({ extended: true }))
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
+
+app.use('/auth', authRoutes)
 
 export default app
