@@ -5,8 +5,8 @@ import Link from 'next/link'
 import api from '@/lib/api'
 import { Equipment, EquipmentStatus } from '@/types'
 import { Plus, Search, LogIn, LogOut, Wrench } from 'lucide-react'
-import CheckoutModal from '@/components/CheckoutModal'
 import CheckinModal from '@/components/CheckinModal'
+import CheckoutModal from '@/components/CheckoutModal'
 import MaintenanceModal from '@/components/MaintenanceModal'
 
 const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: string }> = {
@@ -22,7 +22,7 @@ export default function DashboardPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | ''>('')
   const [total, setTotal] = useState(0)
-  const [modal, setModal] = useState<'checkout' | 'checkin' | 'maintenance' | null>(null)
+  const [modal, setModal] = useState<'checkin' | 'checkout' | 'maintenance' | null>(null)
 
   const fetchEquipment = useCallback(async () => {
     setLoading(true)
@@ -49,24 +49,23 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Painel de Frota</h1>
-          <p style={{ color: 'var(--muted)' }}>{total} equipamentos cadastrados</p>
+          <p style={{ color: 'var(--muted)' }}>{total} veiculos cadastrados</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <button onClick={() => setModal('checkout')}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
-            style={{ backgroundColor: '#3b82f6' }}>
-            <LogOut size={16} />
-            Check-out
-          </button>
           <button onClick={() => setModal('checkin')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#22c55e' }}>
             <LogIn size={16} />
-            Check-in
+            Check-in (Retirada)
+          </button>
+          <button onClick={() => setModal('checkout')}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+            style={{ backgroundColor: '#3b82f6' }}>
+            <LogOut size={16} />
+            Check-out (Devolucao)
           </button>
           <button onClick={() => setModal('maintenance')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
@@ -78,12 +77,11 @@ export default function DashboardPage() {
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: 'var(--primary)' }}>
             <Plus size={16} />
-            Equipamento
+            Veiculo
           </Link>
         </div>
       </div>
 
-      {/* Status summary */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {(Object.keys(statusConfig) as EquipmentStatus[]).map(status => (
           <button key={status} onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
@@ -100,16 +98,14 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
         <input value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="Buscar por nome, marca, modelo ou serie..."
+          placeholder="Buscar por nome, marca, modelo ou placa..."
           className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-white outline-none"
           style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }} />
       </div>
 
-      {/* Equipment grid */}
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {[...Array(8)].map((_, i) => (
@@ -118,9 +114,9 @@ export default function DashboardPage() {
         </div>
       ) : equipment.length === 0 ? (
         <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
-          <div className="text-5xl mb-4">🏗️</div>
-          <div className="text-lg font-medium text-white mb-1">Nenhum equipamento encontrado</div>
-          <div className="text-sm">Cadastre o primeiro equipamento da frota</div>
+          <div className="text-5xl mb-4">🚗</div>
+          <div className="text-lg font-medium text-white mb-1">Nenhum veiculo encontrado</div>
+          <div className="text-sm">Cadastre o primeiro veiculo da frota</div>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -132,7 +128,7 @@ export default function DashboardPage() {
                 style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
                 <div className="w-full h-28 rounded-lg mb-4 flex items-center justify-center text-3xl"
                   style={{ backgroundColor: '#0f172a' }}>
-                  🏗️
+                  🚗
                 </div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-semibold px-2 py-1 rounded-full"
@@ -154,9 +150,8 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Modais */}
-      {modal === 'checkout' && <CheckoutModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
       {modal === 'checkin' && <CheckinModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
+      {modal === 'checkout' && <CheckoutModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
       {modal === 'maintenance' && <MaintenanceModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
     </div>
   )
