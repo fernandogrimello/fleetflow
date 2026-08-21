@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum EquipmentStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  DECOMMISSIONED
+}
+
+enum MaintenanceType {
+  PREVENTIVE
+  CORRECTIVE
+}
+
+enum RentalCondition {
+  GREAT
+  GOOD
+  BAD
+  DAMAGED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  checkouts    Rental[]      @relation("CheckoutBy")
+  checkins     Rental[]      @relation("CheckinBy")
+  maintenances Maintenance[] @relation("ScheduledBy")
+  releases     Maintenance[] @relation("ReleasedBy")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  document  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rentals Rental[]
+}
+
+model Equipment {
+  id            String          @id @default(uuid())
+  name          String
+  category      String
+  brand         String
+  model         String
+  year          Int
+  serialNumber  String          @unique
+  photos        String[]
+  qrCode        String?         @unique
+  status        EquipmentStatus @default(AVAILABLE)
+  dailyRate     Decimal         @db.Decimal(10, 2)
+  purchasePrice Decimal         @db.Decimal(10, 2)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  rentals      Rental[]
+  maintenances Maintenance[]
+  insurance    Insurance?
+}
+
+model Rental {
+  id               String           @id @default(uuid())
+  equipment        Equipment        @relation(fields: [equipmentId], references: [id])
+  equipmentId      String
+  client           Client           @relation(fields: [clientId], references: [id])
+  clientId         String
+  checkedOutBy     User             @relation("CheckoutBy", fields: [checkedOutById], references: [id])
+  checkedOutById   String
+  checkedInBy      User?            @relation("CheckinBy", fields: [checkedInById], references: [id])
+  checkedInById    String?
+  checkoutDate     DateTime
+  checkinDate      DateTime?
+  checkoutPhotos   String[]
+  checkinPhotos    String[]
+  checkoutNotes    String?
+  checkinCondition RentalCondition?
+  checkinNotes     String?
+  dailyRate        Decimal          @db.Decimal(10, 2)
+  totalDays        Int?
+  totalAmount      Decimal?         @db.Decimal(10, 2)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model Maintenance {
+  id             String          @id @default(uuid())
+  equipment      Equipment       @relation(fields: [equipmentId], references: [id])
+  equipmentId    String
+  type           MaintenanceType
+  description    String
+  scheduledDate  DateTime
+  scheduledBy    User            @relation("ScheduledBy", fields: [scheduledById], references: [id])
+  scheduledById  String
+  technicianName String?
+  executedDate   DateTime?
+  laborCost      Decimal?        @db.Decimal(10, 2)
+  releasedBy     User?           @relation("ReleasedBy", fields: [releasedById], references: [id])
+  releasedById   String?
+  releaseDate    DateTime?
+  releaseNotes   String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  parts MaintenancePart[]
+}
+
+model MaintenancePart {
+  id            String      @id @default(uuid())
+  maintenance   Maintenance @relation(fields: [maintenanceId], references: [id])
+  maintenanceId String
+  name          String
+  quantity      Int
+  unitPrice     Decimal     @db.Decimal(10, 2)
+  createdAt     DateTime    @default(now())
+}
+
+model Insurance {
+  id           String    @id @default(uuid())
+  equipment    Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId  String    @unique
+  policyNumber String    @unique
+  insurer      String
+  insuredValue Decimal   @db.Decimal(10, 2)
+  premium      Decimal   @db.Decimal(10, 2)
+  startDate    DateTime
+  endDate      DateTime
+  coverage     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  claims Claim[]
+}
+
+model Claim {
+  id          String    @id @default(uuid())
+  insurance   Insurance @relation(fields: [insuranceId], references: [id])
+  insuranceId String
+  description String
+  claimDate   DateTime
+  amount      Decimal?  @db.Decimal(10, 2)
+  resolved    Boolean   @default(false)
+  resolvedAt  DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
