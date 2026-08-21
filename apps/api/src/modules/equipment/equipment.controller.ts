@@ -3,6 +3,7 @@ import { z } from 'zod'
 import * as equipmentService from './equipment.service'
 import { AuthRequest } from '../../middlewares/auth.middleware'
 import { EquipmentStatus } from '@prisma/client'
+import { handleError } from '../../utils/handle-error'
 
 const createSchema = z.object({
   name: z.string().min(2),
@@ -25,15 +26,7 @@ export async function create(req: AuthRequest, res: Response): Promise<void> {
     const equipment = await equipmentService.create(data)
     res.status(201).json(equipment)
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors[0].message })
-      return
-    }
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message })
-      return
-    }
-    res.status(500).json({ error: 'Erro interno do servidor' })
+    handleError(error, res)
   }
 }
 
@@ -49,7 +42,7 @@ export async function list(req: AuthRequest, res: Response): Promise<void> {
     })
     res.json(result)
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno do servidor' })
+    handleError(error, res, 500)
   }
 }
 
@@ -58,11 +51,7 @@ export async function getById(req: AuthRequest, res: Response): Promise<void> {
     const equipment = await equipmentService.getById(req.params.id)
     res.json(equipment)
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(404).json({ error: error.message })
-      return
-    }
-    res.status(500).json({ error: 'Erro interno do servidor' })
+    handleError(error, res, 404)
   }
 }
 
@@ -72,15 +61,7 @@ export async function update(req: AuthRequest, res: Response): Promise<void> {
     const equipment = await equipmentService.update(req.params.id, data)
     res.json(equipment)
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      res.status(400).json({ error: error.errors[0].message })
-      return
-    }
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message })
-      return
-    }
-    res.status(500).json({ error: 'Erro interno do servidor' })
+    handleError(error, res)
   }
 }
 
@@ -89,10 +70,6 @@ export async function decommission(req: AuthRequest, res: Response): Promise<voi
     const equipment = await equipmentService.decommission(req.params.id)
     res.json(equipment)
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).json({ error: error.message })
-      return
-    }
-    res.status(500).json({ error: 'Erro interno do servidor' })
+    handleError(error, res)
   }
 }

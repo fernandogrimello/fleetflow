@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 import authRoutes from './modules/auth/auth.routes'
 import equipmentRoutes from './modules/equipment/equipment.routes'
+import rentalRoutes from './modules/rental/rental.routes'
 
 dotenv.config()
 
@@ -32,5 +33,6 @@ app.get('/health', (req, res) => {
 
 app.use('/auth', authRoutes)
 app.use('/equipment', equipmentRoutes)
+app.use('/rentals', rentalRoutes)
 
 export default app
