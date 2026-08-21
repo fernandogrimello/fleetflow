@@ -1,10 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { Equipment, EquipmentStatus } from '@/types'
-import { Plus, Search, Filter } from 'lucide-react'
+import { Plus, Search, LogIn, LogOut, Wrench } from 'lucide-react'
+import CheckoutModal from '@/components/CheckoutModal'
+import CheckinModal from '@/components/CheckinModal'
+import MaintenanceModal from '@/components/MaintenanceModal'
 
 const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: string }> = {
   AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
@@ -19,8 +22,9 @@ export default function DashboardPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | ''>('')
   const [total, setTotal] = useState(0)
+  const [modal, setModal] = useState<'checkout' | 'checkin' | 'maintenance' | null>(null)
 
-  async function fetchEquipment() {
+  const fetchEquipment = useCallback(async () => {
     setLoading(true)
     try {
       const params: Record<string, string> = {}
@@ -34,9 +38,9 @@ export default function DashboardPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [search, statusFilter])
 
-  useEffect(() => { fetchEquipment() }, [search, statusFilter])
+  useEffect(() => { fetchEquipment() }, [fetchEquipment])
 
   const statusCounts = equipment.reduce((acc, e) => {
     acc[e.status] = (acc[e.status] || 0) + 1
@@ -46,33 +50,48 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Painel de Frota</h1>
           <p style={{ color: 'var(--muted)' }}>{total} equipamentos cadastrados</p>
         </div>
-        <Link
-          href="/dashboard/equipment/new"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
-          style={{ backgroundColor: 'var(--primary)' }}
-        >
-          <Plus size={16} />
-          Novo Equipamento
-        </Link>
+        <div className="flex items-center gap-2 flex-wrap">
+          <button onClick={() => setModal('checkout')}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+            style={{ backgroundColor: '#3b82f6' }}>
+            <LogOut size={16} />
+            Check-out
+          </button>
+          <button onClick={() => setModal('checkin')}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+            style={{ backgroundColor: '#22c55e' }}>
+            <LogIn size={16} />
+            Check-in
+          </button>
+          <button onClick={() => setModal('maintenance')}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+            style={{ backgroundColor: '#f59e0b' }}>
+            <Wrench size={16} />
+            Manutencao
+          </button>
+          <Link href="/dashboard/equipment/new"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+            style={{ backgroundColor: 'var(--primary)' }}>
+            <Plus size={16} />
+            Equipamento
+          </Link>
+        </div>
       </div>
 
       {/* Status summary */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {(Object.keys(statusConfig) as EquipmentStatus[]).map(status => (
-          <button
-            key={status}
-            onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
+          <button key={status} onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
             className="p-4 rounded-xl border text-left transition-all"
             style={{
               backgroundColor: statusFilter === status ? statusConfig[status].bg : 'var(--card)',
               borderColor: statusFilter === status ? statusConfig[status].color : 'var(--card-border)',
-            }}
-          >
+            }}>
             <div className="text-2xl font-bold text-white">{statusCounts[status] || 0}</div>
             <div className="text-sm mt-1" style={{ color: statusConfig[status].color }}>
               {statusConfig[status].label}
@@ -82,17 +101,12 @@ export default function DashboardPage() {
       </div>
 
       {/* Search */}
-      <div className="flex gap-3">
-        <div className="flex-1 relative">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar por nome, marca, modelo ou serie..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-white outline-none"
-            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}
-          />
-        </div>
+      <div className="relative">
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
+        <input value={search} onChange={e => setSearch(e.target.value)}
+          placeholder="Buscar por nome, marca, modelo ou serie..."
+          className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-white outline-none"
+          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }} />
       </div>
 
       {/* Equipment grid */}
@@ -113,29 +127,20 @@ export default function DashboardPage() {
           {equipment.map(eq => {
             const s = statusConfig[eq.status]
             return (
-              <Link
-                key={eq.id}
-                href={`/dashboard/equipment/${eq.id}`}
+              <Link key={eq.id} href={`/dashboard/equipment/${eq.id}`}
                 className="block p-5 rounded-xl border transition-all hover:scale-[1.02]"
-                style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}
-              >
-                {/* Photo placeholder */}
+                style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
                 <div className="w-full h-28 rounded-lg mb-4 flex items-center justify-center text-3xl"
                   style={{ backgroundColor: '#0f172a' }}>
                   🏗️
                 </div>
-
-                {/* Status badge */}
                 <div className="flex items-center justify-between mb-2">
-                  <span
-                    className="text-xs font-semibold px-2 py-1 rounded-full"
-                    style={{ backgroundColor: s.bg, color: s.color }}
-                  >
+                  <span className="text-xs font-semibold px-2 py-1 rounded-full"
+                    style={{ backgroundColor: s.bg, color: s.color }}>
                     {s.label}
                   </span>
                   <span className="text-xs" style={{ color: 'var(--muted)' }}>{eq.year}</span>
                 </div>
-
                 <h3 className="font-semibold text-white text-sm truncate">{eq.name}</h3>
                 <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--muted)' }}>
                   {eq.brand} {eq.model}
@@ -148,6 +153,11 @@ export default function DashboardPage() {
           })}
         </div>
       )}
+
+      {/* Modais */}
+      {modal === 'checkout' && <CheckoutModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
+      {modal === 'checkin' && <CheckinModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
+      {modal === 'maintenance' && <MaintenanceModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
     </div>
   )
 }

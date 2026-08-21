@@ -39,7 +39,7 @@ export default function NewEquipmentPage() {
     }
   }
 
-  const categories = ['Maquina Pesada', 'Veiculo', 'Equipamento Eletrico', 'Ferramenta', 'Outro']
+  const categories = ['Carro de Passeio', 'SUV', 'Pickup', 'Van', 'Caminhao', 'Onibus', 'Moto', 'Equipamento Especial']
 
   return (
     <div className="max-w-2xl space-y-6">
