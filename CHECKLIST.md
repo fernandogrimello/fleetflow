@@ -45,13 +45,13 @@
 - [x] PUT /maintenance/:id/service-order
 - [x] PUT /maintenance/:id/release
 - [x] GET /maintenance/equipment/:id
-- [ ] GET /financial/equipment/:id
-- [ ] Calculo ROI e lucro liquido
-- [ ] Receita perdida por downtime
-- [ ] GET /metrics/ranking
-- [ ] GET /metrics/occupancy
-- [ ] GET /metrics/maintenance-cost
-- [ ] GET /metrics/roi
+- [x] GET /financial/equipment/:id
+- [x] Calculo ROI e lucro liquido
+- [x] Receita perdida por downtime
+- [x] GET /metrics/ranking
+- [x] GET /metrics/occupancy
+- [x] GET /metrics/maintenance-cost
+- [x] GET /metrics/roi
 - [ ] POST /insurance
 - [ ] GET /insurance/equipment/:id
 - [ ] POST /insurance/:id/claim
