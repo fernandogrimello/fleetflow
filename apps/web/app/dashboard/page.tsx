@@ -1,0 +1,153 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import api from '@/lib/api'
+import { Equipment, EquipmentStatus } from '@/types'
+import { Plus, Search, Filter } from 'lucide-react'
+
+const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: string }> = {
+  AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
+  RENTED:         { label: 'Alugado',      color: '#3b82f6', bg: '#172554' },
+  MAINTENANCE:    { label: 'Manutencao',   color: '#f59e0b', bg: '#451a03' },
+  DECOMMISSIONED: { label: 'Baixado',      color: '#64748b', bg: '#0f172a' },
+}
+
+export default function DashboardPage() {
+  const [equipment, setEquipment] = useState<Equipment[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState<EquipmentStatus | ''>('')
+  const [total, setTotal] = useState(0)
+
+  async function fetchEquipment() {
+    setLoading(true)
+    try {
+      const params: Record<string, string> = {}
+      if (search) params.search = search
+      if (statusFilter) params.status = statusFilter
+      const { data } = await api.get('/equipment', { params })
+      setEquipment(data.items)
+      setTotal(data.total)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => { fetchEquipment() }, [search, statusFilter])
+
+  const statusCounts = equipment.reduce((acc, e) => {
+    acc[e.status] = (acc[e.status] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Painel de Frota</h1>
+          <p style={{ color: 'var(--muted)' }}>{total} equipamentos cadastrados</p>
+        </div>
+        <Link
+          href="/dashboard/equipment/new"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
+          style={{ backgroundColor: 'var(--primary)' }}
+        >
+          <Plus size={16} />
+          Novo Equipamento
+        </Link>
+      </div>
+
+      {/* Status summary */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {(Object.keys(statusConfig) as EquipmentStatus[]).map(status => (
+          <button
+            key={status}
+            onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
+            className="p-4 rounded-xl border text-left transition-all"
+            style={{
+              backgroundColor: statusFilter === status ? statusConfig[status].bg : 'var(--card)',
+              borderColor: statusFilter === status ? statusConfig[status].color : 'var(--card-border)',
+            }}
+          >
+            <div className="text-2xl font-bold text-white">{statusCounts[status] || 0}</div>
+            <div className="text-sm mt-1" style={{ color: statusConfig[status].color }}>
+              {statusConfig[status].label}
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Search */}
+      <div className="flex gap-3">
+        <div className="flex-1 relative">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Buscar por nome, marca, modelo ou serie..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-white outline-none"
+            style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}
+          />
+        </div>
+      </div>
+
+      {/* Equipment grid */}
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="h-48 rounded-xl animate-pulse" style={{ backgroundColor: 'var(--card)' }} />
+          ))}
+        </div>
+      ) : equipment.length === 0 ? (
+        <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
+          <div className="text-5xl mb-4">🏗️</div>
+          <div className="text-lg font-medium text-white mb-1">Nenhum equipamento encontrado</div>
+          <div className="text-sm">Cadastre o primeiro equipamento da frota</div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {equipment.map(eq => {
+            const s = statusConfig[eq.status]
+            return (
+              <Link
+                key={eq.id}
+                href={`/dashboard/equipment/${eq.id}`}
+                className="block p-5 rounded-xl border transition-all hover:scale-[1.02]"
+                style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}
+              >
+                {/* Photo placeholder */}
+                <div className="w-full h-28 rounded-lg mb-4 flex items-center justify-center text-3xl"
+                  style={{ backgroundColor: '#0f172a' }}>
+                  🏗️
+                </div>
+
+                {/* Status badge */}
+                <div className="flex items-center justify-between mb-2">
+                  <span
+                    className="text-xs font-semibold px-2 py-1 rounded-full"
+                    style={{ backgroundColor: s.bg, color: s.color }}
+                  >
+                    {s.label}
+                  </span>
+                  <span className="text-xs" style={{ color: 'var(--muted)' }}>{eq.year}</span>
+                </div>
+
+                <h3 className="font-semibold text-white text-sm truncate">{eq.name}</h3>
+                <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--muted)' }}>
+                  {eq.brand} {eq.model}
+                </p>
+                <p className="text-sm font-medium mt-2" style={{ color: 'var(--primary)' }}>
+                  R$ {Number(eq.dailyRate).toLocaleString('pt-BR')}/dia
+                </p>
+              </Link>
+            )
+          })}
+        </div>
+      )}
+    </div>
+  )
+}
