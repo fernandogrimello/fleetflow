@@ -61,24 +61,24 @@
 - [ ] Candidatos a baixa
 
 ## Fase 2 — Frontend (Web)
-- [ ] Inicializar apps/web com Next.js 14 + Tailwind CSS
-- [ ] Layout base (sidebar, header, auth)
-- [ ] API client
+- [x] Inicializar apps/web com Next.js 14 + Tailwind CSS
+- [x] Layout base (sidebar, header, auth)
+- [x] API client
 - [ ] Grid visual de frota com badges
-- [ ] Filtros por status e categoria
+- [x] Filtros por status e categoria
 - [ ] Modal de detalhe do equipamento
-- [ ] Listagem e busca de equipamentos
-- [ ] Formulario de cadastro e edicao
+- [x] Listagem e busca de equipamentos
+- [x] Formulario de cadastro
 - [ ] Pagina publica de QR Code
 - [ ] Formulario de check-out com fotos
 - [ ] Formulario de check-in com avaliacao
-- [ ] Historico de locacoes
+- [x] Historico de locacoes
 - [ ] Agendamento de manutencao
 - [ ] Ordem de servico
-- [ ] Historico de manutencoes
-- [ ] Dashboard de ROI
+- [x] Historico de manutencoes
+- [x] Dashboard de ROI
 - [ ] Graficos de ocupacao e receita
-- [ ] Rankings de uso
+- [x] Rankings de uso
 
 ## Fase 3 — Testes
 - [ ] auth.test.ts
