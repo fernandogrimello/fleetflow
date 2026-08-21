@@ -9,6 +9,7 @@ import rentalRoutes from './modules/rental/rental.routes'
 import maintenanceRoutes from './modules/maintenance/maintenance.routes'
 import financialRoutes from './modules/financial/financial.routes'
 import metricsRoutes from './modules/metrics/metrics.routes'
+import insuranceRoutes from './modules/insurance/insurance.routes'
 
 dotenv.config()
 
@@ -40,5 +41,6 @@ app.use('/rentals', rentalRoutes)
 app.use('/maintenance', maintenanceRoutes)
 app.use('/financial', financialRoutes)
 app.use('/metrics', metricsRoutes)
+app.use('/insurance', insuranceRoutes)
 
 export default app
