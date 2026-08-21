@@ -41,10 +41,10 @@
 - [x] GET /rentals
 - [x] GET /rentals/equipment/:id
 - [x] GET /rentals/client/:id
-- [ ] POST /maintenance
-- [ ] PUT /maintenance/:id/service-order
-- [ ] PUT /maintenance/:id/release
-- [ ] GET /maintenance/equipment/:id
+- [x] POST /maintenance
+- [x] PUT /maintenance/:id/service-order
+- [x] PUT /maintenance/:id/release
+- [x] GET /maintenance/equipment/:id
 - [ ] GET /financial/equipment/:id
 - [ ] Calculo ROI e lucro liquido
 - [ ] Receita perdida por downtime
