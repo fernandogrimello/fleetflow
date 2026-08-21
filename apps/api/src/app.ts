@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import authRoutes from './modules/auth/auth.routes'
 import equipmentRoutes from './modules/equipment/equipment.routes'
 import rentalRoutes from './modules/rental/rental.routes'
+import maintenanceRoutes from './modules/maintenance/maintenance.routes'
 
 dotenv.config()
 
@@ -34,5 +35,6 @@ app.get('/health', (req, res) => {
 app.use('/auth', authRoutes)
 app.use('/equipment', equipmentRoutes)
 app.use('/rentals', rentalRoutes)
+app.use('/maintenance', maintenanceRoutes)
 
 export default app
