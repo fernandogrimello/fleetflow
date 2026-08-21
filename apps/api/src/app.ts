@@ -7,6 +7,8 @@ import authRoutes from './modules/auth/auth.routes'
 import equipmentRoutes from './modules/equipment/equipment.routes'
 import rentalRoutes from './modules/rental/rental.routes'
 import maintenanceRoutes from './modules/maintenance/maintenance.routes'
+import financialRoutes from './modules/financial/financial.routes'
+import metricsRoutes from './modules/metrics/metrics.routes'
 
 dotenv.config()
 
@@ -36,5 +38,7 @@ app.use('/auth', authRoutes)
 app.use('/equipment', equipmentRoutes)
 app.use('/rentals', rentalRoutes)
 app.use('/maintenance', maintenanceRoutes)
+app.use('/financial', financialRoutes)
+app.use('/metrics', metricsRoutes)
 
 export default app
