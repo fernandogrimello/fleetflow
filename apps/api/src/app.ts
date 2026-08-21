@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 import authRoutes from './modules/auth/auth.routes'
+import equipmentRoutes from './modules/equipment/equipment.routes'
 
 dotenv.config()
 
@@ -30,5 +31,6 @@ app.get('/health', (req, res) => {
 })
 
 app.use('/auth', authRoutes)
+app.use('/equipment', equipmentRoutes)
 
 export default app
