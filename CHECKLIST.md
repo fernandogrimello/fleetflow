@@ -29,11 +29,11 @@
 - [x] Entidade Claim
 - [x] Entidade User
 - [x] Migrations e seed inicial aplicada
-- [ ] GET /equipment
-- [ ] POST /equipment
-- [ ] GET /equipment/:id
-- [ ] PUT /equipment/:id
-- [ ] DELETE /equipment/:id
+- [x] GET /equipment
+- [x] POST /equipment
+- [x] GET /equipment/:id
+- [x] PUT /equipment/:id
+- [x] DELETE /equipment/:id
 - [ ] Upload de fotos
 - [ ] Geracao de QR Code
 - [ ] POST /rentals/checkout
