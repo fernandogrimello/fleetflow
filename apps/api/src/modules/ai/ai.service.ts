@@ -11,8 +11,8 @@ async function callGemini(prompt: string): Promise<any> {
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        temperature: 0.2,
-        maxOutputTokens: 2048,
+        temperature: 0.1,
+        maxOutputTokens: 4096,
         responseMimeType: 'application/json',
       },
     }),
@@ -32,38 +32,27 @@ export async function predictNextMaintenance(equipmentId: string) {
   const equipment = await prisma.equipment.findUnique({
     where: { id: equipmentId },
     include: {
-      maintenances: {
-        orderBy: { scheduledDate: 'desc' },
-        take: 10,
-        include: { parts: true },
-      },
-      rentals: {
-        where: { checkinDate: { not: null } },
-        orderBy: { checkoutDate: 'desc' },
-        take: 20,
-      },
+      maintenances: { orderBy: { scheduledDate: 'desc' }, take: 5, include: { parts: true } },
+      rentals: { where: { checkinDate: { not: null } }, orderBy: { checkoutDate: 'desc' }, take: 10 },
     },
   })
 
   if (!equipment) throw new Error('Veiculo nao encontrado')
 
-  const maintenanceHistory = equipment.maintenances.map(m => ({
+  const hist = equipment.maintenances.map(m => ({
     tipo: m.type === 'PREVENTIVE' ? 'Preventiva' : 'Corretiva',
-    descricao: m.description,
+    desc: m.description,
     data: m.scheduledDate.toISOString().split('T')[0],
     custo: Number(m.laborCost || 0) + m.parts.reduce((s, p) => s + p.quantity * Number(p.unitPrice), 0),
-    concluida: !!m.releaseDate,
   }))
 
-  const totalDaysRented = equipment.rentals.reduce((s, r) => s + (r.totalDays || 0), 0)
+  const diasAlugado = equipment.rentals.reduce((s, r) => s + (r.totalDays || 0), 0)
 
-  const prompt = `Voce e um especialista em manutencao de veiculos para empresas de locacao.
-Veiculo: ${equipment.name} (${equipment.brand} ${equipment.model} ${equipment.year})
-Categoria: ${equipment.category}
-Total de dias alugado: ${totalDaysRented} dias
-Numero de locacoes: ${equipment.rentals.length}
-Historico de manutencoes: ${JSON.stringify(maintenanceHistory)}
-Retorne JSON com: proximaManutencao (tipo, descricaoSugerida, dataEstimada YYYY-MM-DD, justificativa, prioridade Alta/Media/Baixa), alertas (array de strings), recomendacoes (array de strings)`
+  const prompt = `Especialista em manutencao de veiculos de locacao.
+Veiculo: ${equipment.name} ${equipment.brand} ${equipment.model} ${equipment.year}
+Dias alugado: ${diasAlugado}, Locacoes: ${equipment.rentals.length}
+Manutencoes: ${JSON.stringify(hist)}
+Retorne JSON: {proximaManutencao:{tipo,descricaoSugerida,dataEstimada,justificativa,prioridade},alertas:[],recomendacoes:[]}`
 
   const result = await callGemini(prompt)
   return { equipmentId, equipmentName: equipment.name, ...result }
@@ -78,18 +67,24 @@ export async function analyzeFleet() {
     },
   })
 
-  const fleetData = equipments.map(e => {
-    const maintenanceCost = e.maintenances.reduce((s, m) => {
-      return s + Number(m.laborCost || 0) + m.parts.reduce((ps, p) => ps + p.quantity * Number(p.unitPrice), 0)
-    }, 0)
-    const revenue = e.rentals.reduce((s, r) => s + Number(r.totalAmount || 0), 0)
-    const roi = revenue - Number(e.purchasePrice) - maintenanceCost
-    return { nome: e.name, categoria: e.category, status: e.status, totalLocacoes: e.rentals.length, custoManutencao: maintenanceCost, receita: revenue, roi }
+  const frota = equipments.map(e => {
+    const custoMan = e.maintenances.reduce((s, m) =>
+      s + Number(m.laborCost || 0) + m.parts.reduce((ps, p) => ps + p.quantity * Number(p.unitPrice), 0), 0)
+    const receita = e.rentals.reduce((s, r) => s + Number(r.totalAmount || 0), 0)
+    return {
+      nome: e.name,
+      cat: e.category,
+      status: e.status,
+      locacoes: e.rentals.length,
+      custoMan,
+      receita,
+      roi: receita - Number(e.purchasePrice) - custoMan,
+    }
   })
 
-  const prompt = `Voce e um consultor de gestao de frotas para empresas de locacao.
-Dados da frota: ${JSON.stringify(fleetData)}
-Retorne JSON com: candidatosBaixa (array de {nome, motivo}), maisRentaveis (array de {nome, destaque}), recomendacoesEstrategicas (array de strings), resumoGeral (string)`
+  const prompt = `Consultor de frotas de locacao de veiculos.
+Dados: ${JSON.stringify(frota)}
+Retorne JSON compacto: {candidatosBaixa:[{nome,motivo}],maisRentaveis:[{nome,destaque}],recomendacoesEstrategicas:[string,string,string],resumoGeral:string}`
 
   return callGemini(prompt)
 }
