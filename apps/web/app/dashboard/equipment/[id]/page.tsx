@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { Equipment, Rental, Maintenance } from '@/types'
-import { ArrowLeft, Calendar, Wrench, DollarSign } from 'lucide-react'
+import { ArrowLeft, Calendar, Wrench, DollarSign, QrCode, Camera } from 'lucide-react'
 
 const statusConfig = {
   AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
@@ -19,13 +19,48 @@ export default function EquipmentDetailPage() {
   const router = useRouter()
   const [equipment, setEquipment] = useState<Equipment & { rentals: Rental[]; maintenances: Maintenance[] } | null>(null)
   const [loading, setLoading] = useState(true)
+  const [showQR, setShowQR] = useState(false)
+  const [generatingQR, setGeneratingQR] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
-  useEffect(() => {
-    api.get(`/equipment/${id}`)
-      .then(({ data }) => setEquipment(data))
-      .catch(() => router.push('/dashboard'))
-      .finally(() => setLoading(false))
-  }, [id])
+  async function fetchEquipment() {
+    try {
+      const { data } = await api.get(`/equipment/${id}`)
+      setEquipment(data)
+    } catch {
+      router.push('/dashboard')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => { fetchEquipment() }, [id])
+
+  async function handleGenerateQR() {
+    setGeneratingQR(true)
+    try {
+      await api.post(`/equipment/${id}/qrcode`)
+      await fetchEquipment()
+      setShowQR(true)
+    } finally {
+      setGeneratingQR(false)
+    }
+  }
+
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files?.length) return
+    setUploading(true)
+    const formData = new FormData()
+    Array.from(e.target.files).forEach(f => formData.append('photos', f))
+    try {
+      await api.post(`/equipment/${id}/photos`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      await fetchEquipment()
+    } finally {
+      setUploading(false)
+    }
+  }
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
@@ -39,7 +74,6 @@ export default function EquipmentDetailPage() {
 
   return (
     <div className="space-y-6 max-w-4xl">
-      {/* Header */}
       <div className="flex items-center gap-4">
         <Link href="/dashboard" className="p-2 rounded-lg hover:bg-slate-700 transition-colors">
           <ArrowLeft size={20} className="text-white" />
@@ -52,6 +86,32 @@ export default function EquipmentDetailPage() {
           style={{ backgroundColor: s.bg, color: s.color }}>
           {s.label}
         </span>
+      </div>
+
+      {/* Fotos */}
+      <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-white">Fotos</h2>
+          <label className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white cursor-pointer"
+            style={{ backgroundColor: uploading ? 'var(--muted)' : 'var(--primary)' }}>
+            <Camera size={14} />
+            {uploading ? 'Enviando...' : 'Adicionar Fotos'}
+            <input type="file" accept="image/*" multiple onChange={handlePhotoUpload} className="hidden" disabled={uploading} />
+          </label>
+        </div>
+        {equipment.photos?.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {equipment.photos.map((photo, i) => (
+              <img key={i} src={photo} alt={`Foto ${i + 1}`}
+                className="w-full h-28 object-cover rounded-lg" />
+            ))}
+          </div>
+        ) : (
+          <div className="h-24 flex items-center justify-center rounded-lg text-sm"
+            style={{ backgroundColor: '#0f172a', color: 'var(--muted)' }}>
+            Nenhuma foto cadastrada
+          </div>
+        )}
       </div>
 
       {/* Info cards */}
@@ -89,6 +149,36 @@ export default function EquipmentDetailPage() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* QR Code */}
+      <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-white">QR Code</h2>
+          <button onClick={handleGenerateQR} disabled={generatingQR}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white disabled:opacity-50"
+            style={{ backgroundColor: '#7c3aed' }}>
+            <QrCode size={14} />
+            {generatingQR ? 'Gerando...' : equipment.qrCode ? 'Regenerar' : 'Gerar QR Code'}
+          </button>
+        </div>
+        {equipment.qrCode && (showQR || true) ? (
+          <div className="flex flex-col items-center gap-3">
+            <img src={equipment.qrCode} alt="QR Code" className="w-48 h-48 rounded-lg" />
+            <p className="text-xs" style={{ color: 'var(--muted)' }}>
+              Aponte a camera para acessar a pagina publica do veiculo
+            </p>
+            <a href={`/equipment/public/${equipment.id}`} target="_blank"
+              className="text-xs" style={{ color: 'var(--primary)' }}>
+              Ver pagina publica
+            </a>
+          </div>
+        ) : (
+          <div className="h-24 flex items-center justify-center rounded-lg text-sm"
+            style={{ backgroundColor: '#0f172a', color: 'var(--muted)' }}>
+            Clique em "Gerar QR Code" para criar o codigo
+          </div>
+        )}
       </div>
 
       {/* Rental history */}

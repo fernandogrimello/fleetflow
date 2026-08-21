@@ -3,6 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import path from 'path'
 import authRoutes from './modules/auth/auth.routes'
 import equipmentRoutes from './modules/equipment/equipment.routes'
 import rentalRoutes from './modules/rental/rental.routes'
@@ -16,7 +17,7 @@ dotenv.config()
 
 const app = express()
 
-app.use(helmet())
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
 
 app.use(cors({
   origin: process.env.CORS_ORIGINS?.split(',') || 'http://localhost:3000',
@@ -31,6 +32,9 @@ app.use(rateLimit({
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+const uploadDir = process.env.UPLOAD_DIR || './uploads'
+app.use('/uploads', express.static(path.resolve(uploadDir)))
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })

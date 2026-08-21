@@ -85,3 +85,42 @@ export async function decommission(id: string) {
     data: { status: 'DECOMMISSIONED' },
   })
 }
+
+export async function addPhotos(id: string, filenames: string[]) {
+  const equipment = await getById(id)
+  const baseUrl = process.env.API_BASE_URL || 'http://localhost:3001'
+  const newPhotos = filenames.map(f => `${baseUrl}/uploads/${f}`)
+  return prisma.equipment.update({
+    where: { id },
+    data: { photos: { push: newPhotos } },
+  })
+}
+
+export async function generateAndSaveQRCode(id: string) {
+  const { generateQRCode } = await import('../../utils/qrcode')
+  const qrCode = await generateQRCode(id)
+  return prisma.equipment.update({
+    where: { id },
+    data: { qrCode },
+    select: { id: true, name: true, qrCode: true },
+  })
+}
+
+export async function getPublic(id: string) {
+  const equipment = await prisma.equipment.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      category: true,
+      brand: true,
+      model: true,
+      year: true,
+      status: true,
+      photos: true,
+      dailyRate: true,
+    },
+  })
+  if (!equipment) throw new Error('Equipamento nao encontrado')
+  return equipment
+}

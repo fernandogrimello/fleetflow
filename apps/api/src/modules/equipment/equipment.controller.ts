@@ -73,3 +73,36 @@ export async function decommission(req: AuthRequest, res: Response): Promise<voi
     handleError(error, res)
   }
 }
+
+export async function addPhotos(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const files = req.files as Express.Multer.File[]
+    if (!files || files.length === 0) {
+      res.status(400).json({ error: 'Nenhuma foto enviada' })
+      return
+    }
+    const filenames = files.map(f => f.filename)
+    const equipment = await equipmentService.addPhotos(req.params.id, filenames)
+    res.json(equipment)
+  } catch (error) {
+    handleError(error, res)
+  }
+}
+
+export async function generateQRCode(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const result = await equipmentService.generateAndSaveQRCode(req.params.id)
+    res.json(result)
+  } catch (error) {
+    handleError(error, res)
+  }
+}
+
+export async function getPublic(req: Request, res: Response): Promise<void> {
+  try {
+    const equipment = await equipmentService.getPublic(req.params.id)
+    res.json(equipment)
+  } catch (error) {
+    handleError(error, res, 404)
+  }
+}
