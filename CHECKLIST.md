@@ -16,19 +16,19 @@
 - [x] .gitignore
 
 ## Fase 1 — Backend (API)
-- [ ] Inicializar apps/api com Express + TypeScript
+- [x] Inicializar apps/api com Express + TypeScript
 - [ ] Configurar Prisma ORM + PostgreSQL
 - [ ] Autenticacao JWT
 - [ ] Helmet, CORS, Rate Limiting, Zod
-- [ ] Entidade Equipment
-- [ ] Entidade Client
-- [ ] Entidade Rental
-- [ ] Entidade Maintenance
-- [ ] Entidade MaintenancePart
-- [ ] Entidade Insurance
-- [ ] Entidade Claim
-- [ ] Entidade User
-- [ ] Migrations e seed
+- [x] Entidade Equipment
+- [x] Entidade Client
+- [x] Entidade Rental
+- [x] Entidade Maintenance
+- [x] Entidade MaintenancePart
+- [x] Entidade Insurance
+- [x] Entidade Claim
+- [x] Entidade User
+- [x] Migrations e seed inicial aplicada
 - [ ] GET /equipment
 - [ ] POST /equipment
 - [ ] GET /equipment/:id
