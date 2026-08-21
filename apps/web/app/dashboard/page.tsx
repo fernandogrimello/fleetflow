@@ -122,13 +122,18 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {equipment.map(eq => {
             const s = statusConfig[eq.status]
+            const firstPhoto = eq.photos?.[0]
             return (
               <Link key={eq.id} href={`/dashboard/equipment/${eq.id}`}
                 className="block p-5 rounded-xl border transition-all hover:scale-[1.02]"
                 style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-                <div className="w-full h-28 rounded-lg mb-4 flex items-center justify-center text-3xl"
+                <div className="w-full h-28 rounded-lg mb-4 overflow-hidden flex items-center justify-center"
                   style={{ backgroundColor: '#0f172a' }}>
-                  🚗
+                  {firstPhoto ? (
+                    <img src={firstPhoto} alt={eq.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-3xl">🚗</span>
+                  )}
                 </div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-semibold px-2 py-1 rounded-full"
