@@ -17,62 +17,60 @@
 
 ## Sobre o Projeto
 
-FleetFlow e um sistema full-stack de gestao de frota de veiculos para empresas de locacao.
-Cobre o ciclo de vida completo de cada veiculo: da aquisicao ao descarte, passando por
-locacoes, manutencoes, seguros e analise de ROI.
+FleetFlow é um sistema full-stack de gestão de frota de veículos para empresas de locação.
+Cobre o ciclo de vida completo de cada veículo: da aquisição ao descarte, passando por
+locações, manutenções, seguros e análise de ROI.
 
-O sistema inclui rastreamento GPS simulado com mapa interativo, analise preditiva por IA
-(Gemini 3.6 Flash), pagina publica via QR Code para operadores de patio e alertas
-automaticos de hodometro.
+O sistema inclui rastreamento GPS simulado com mapa interativo, análise preditiva por IA
+(Gemini 3.6 Flash), página pública via QR Code para operadores de pátio e alertas
+automáticos de hodômetro.
 
-> **Projeto de portfolio** desenvolvido com a mesma seriedade de um produto comercial:
-> arquitetura em modulos, documentacao de decisoes tecnicas e dados realistas de demonstracao.
-
----
+> **Projeto de portfólio** desenvolvido com a mesma seriedade de um produto comercial:
+> arquitetura em módulos, documentação de decisões técnicas e dados realistas de demonstração.
 
 ## Telas do Sistema
 
 ### Painel de Frota
 ![Painel de Frota](docs/screenshots/01-painel-frota.png)
-*Grid visual com fotos reais dos veiculos, badges de status em tempo real e acoes rapidas
-de check-in, check-out e manutencao.*
+*Grid visual com fotos reais dos veículos, badges de status em tempo real e ações rápidas
+de check-in, check-out e manutenção.*
 
 ### Mapa da Frota (Telemetria GPS)
 ![Mapa da Frota](docs/screenshots/02-mapa-frota.png)
-*Mapa interativo com posicao de todos os veiculos em Brasilia/DF, alertas de hodometro
+*Mapa interativo com posição de todos os veículos em Brasília/DF, alertas de hodômetro
 e detalhe ao clicar no marker.*
 
-### Metricas e Analise por IA
-![Metricas com IA](docs/screenshots/03-metricas-ia.png)
-*Gemini 3.6 Flash analisa os dados da frota e entrega recomendacoes estrategicas:
-candidatos a baixa, veiculos mais rentaveis e acoes prioritarias.*
+### Métricas e Análise por IA
+![Métricas com IA](docs/screenshots/03-metricas-ia.png)
+*Gemini 3.6 Flash analisa os dados da frota e entrega recomendações estratégicas:
+candidatos à baixa, veículos mais rentáveis e ações prioritárias.*
 
 ### Dashboard Financeiro
 ![Financeiro](docs/screenshots/04-financeiro.png)
-*ROI individual por veiculo com receita total, custo de manutencao, custo de seguro,
-lucro liquido e receita perdida por downtime.*
+*ROI individual por veículo com receita total, custo de manutenção, custo de seguro,
+lucro líquido e receita perdida por downtime.*
 
-### Pagina Publica via QR Code
-![QR Code Publico](docs/screenshots/05-qrcode-publico.png)
-*Pagina responsiva acessada via QR Code sem autenticacao: ficha tecnica, status atual
-e formulario de abertura de chamado direto do campo.*
+### Página Pública via QR Code
+![QR Code Público](docs/screenshots/05-qrcode-publico.png)
+*Página responsiva acessada via QR Code sem autenticação: ficha técnica, status atual
+e formulário de abertura de chamado direto do campo.*
 
 ---
 
 ## Funcionalidades
 
-| Modulo | Descricao |
+| Módulo | Descrição |
 |--------|-----------|
 | Painel de Frota | Grid visual com fotos, badges de status, busca e filtros |
-| Check-in / Check-out | Retirada e devolucao de veiculos com registro de condicoes |
-| Manutencao | Preventiva e corretiva com OS, pecas, custos e liberacao |
-| Financeiro | ROI por veiculo: receita, custos, lucro liquido, downtime |
-| Metricas | Rankings, taxa de ocupacao, custo por categoria |
-| Telemetria GPS | Mapa interativo, hodometro, alertas e gatilho automatico de OS |
-| Seguros | Apolices, sinistros e alertas de vencimento |
-| IA (Gemini) | Analise preditiva da frota e recomendacoes estrategicas |
-| QR Code | Pagina publica com ficha tecnica e abertura de chamado |
-| Upload de Fotos | Galeria por veiculo com visualizacao e remocao |
+| Check-in / Check-out | Retirada e devolução de veículos com registro de condições |
+| Manutenção | Preventiva e corretiva com OS, peças, custos e liberação |
+| Financeiro | ROI por veículo: receita, custos, lucro líquido, downtime |
+| Métricas | Rankings, taxa de ocupação, custo por categoria |
+| Telemetria GPS | Mapa interativo, hodômetro, alertas e gatilho automático de OS |
+| Seguros | Apólices, sinistros e alertas de vencimento |
+| IA (Gemini) | Análise preditiva da frota e recomendações estratégicas |
+| QR Code | Página pública com ficha técnica e abertura de chamado |
+| Upload de Fotos | Galeria por veículo com visualização e remoção |
 
 ---
 
@@ -90,7 +88,7 @@ e formulario de abertura de chamado direto do campo.*
 
 ## Como rodar localmente
 
-### Pre-requisitos
+### Pré-requisitos
 - Node.js 20+
 - Docker e Docker Compose
 - gh CLI (para primeiro setup)
@@ -140,7 +138,7 @@ fleetflow/
 
 | Arquivo | Conteudo |
 |---------|----------|
-| [01-arquitetura.md](docs/01-arquitetura.md) | Visao geral e decisoes de design |
+| [01-arquitetura.md](docs/01-arquitetura.md) | Visão geral e decisões de design |
 | [02-banco-de-dados.md](docs/02-banco-de-dados.md) | Modelo de dados e relacionamentos |
 | [03-modulos.md](docs/03-modulos.md) | Detalhamento funcional |
 | [04-decisoes-tecnicas.md](docs/04-decisoes-tecnicas.md) | ADRs |
@@ -150,13 +148,13 @@ fleetflow/
 
 ## Projetos Relacionados
 
-- [ops-ai-agent](https://github.com/fernandogrimello/ops-ai-agent) — Atendimento via WhatsApp com criacao de tickets (mesma stack)
+- [ops-ai-agent](https://github.com/fernandogrimello/ops-ai-agent) — Atendimento via WhatsApp com criacão de tickets (mesma stack)
 
 ---
 
 ## Licenca
 
-Este repositorio e disponibilizado apenas para visualizacao de portfolio.
-Uso, copia ou redistribuicao nao autorizados. Ver [LICENSE](LICENSE).
+Este repositório é disponibilizado apenas para visualizacão de portfolio.
+Uso, cópia ou redistribuicão não autorizados. Ver [LICENSE](LICENSE).
 
 (c) 2026 Fernando Grimello
