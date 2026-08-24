@@ -106,3 +106,17 @@ export async function getPublic(req: Request, res: Response): Promise<void> {
     handleError(error, res, 404)
   }
 }
+
+export async function removePhoto(req: AuthRequest, res: Response): Promise<void> {
+  try {
+    const { photoUrl } = req.body
+    if (!photoUrl) {
+      res.status(400).json({ error: 'URL da foto obrigatoria' })
+      return
+    }
+    const equipment = await equipmentService.removePhoto(req.params.id, photoUrl)
+    res.json(equipment)
+  } catch (error) {
+    handleError(error, res)
+  }
+}

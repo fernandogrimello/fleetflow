@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { Equipment, Rental, Maintenance } from '@/types'
-import { ArrowLeft, Calendar, Wrench, DollarSign, QrCode, Camera } from 'lucide-react'
+import { ArrowLeft, Calendar, Wrench, DollarSign, QrCode, Camera, Trash2 } from 'lucide-react'
 
 const statusConfig = {
   AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
@@ -19,9 +19,9 @@ export default function EquipmentDetailPage() {
   const router = useRouter()
   const [equipment, setEquipment] = useState<Equipment & { rentals: Rental[]; maintenances: Maintenance[] } | null>(null)
   const [loading, setLoading] = useState(true)
-  const [showQR, setShowQR] = useState(false)
   const [generatingQR, setGeneratingQR] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [removingPhoto, setRemovingPhoto] = useState<string | null>(null)
 
   async function fetchEquipment() {
     try {
@@ -41,7 +41,6 @@ export default function EquipmentDetailPage() {
     try {
       await api.post(`/equipment/${id}/qrcode`)
       await fetchEquipment()
-      setShowQR(true)
     } finally {
       setGeneratingQR(false)
     }
@@ -59,6 +58,18 @@ export default function EquipmentDetailPage() {
       await fetchEquipment()
     } finally {
       setUploading(false)
+      e.target.value = ''
+    }
+  }
+
+  async function handleRemovePhoto(photoUrl: string) {
+    if (!confirm('Remover esta foto?')) return
+    setRemovingPhoto(photoUrl)
+    try {
+      await api.delete(`/equipment/${id}/photos`, { data: { photoUrl } })
+      await fetchEquipment()
+    } finally {
+      setRemovingPhoto(null)
     }
   }
 
@@ -91,7 +102,7 @@ export default function EquipmentDetailPage() {
       {/* Fotos */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-white">Fotos</h2>
+          <h2 className="text-sm font-semibold text-white">Fotos ({equipment.photos?.length || 0})</h2>
           <label className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white cursor-pointer"
             style={{ backgroundColor: uploading ? 'var(--muted)' : 'var(--primary)' }}>
             <Camera size={14} />
@@ -102,8 +113,18 @@ export default function EquipmentDetailPage() {
         {equipment.photos?.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {equipment.photos.map((photo, i) => (
-              <img key={i} src={photo} alt={`Foto ${i + 1}`}
-                className="w-full h-28 object-cover rounded-lg" />
+              <div key={i} className="relative group">
+                <img src={photo} alt={`Foto ${i + 1}`}
+                  className="w-full h-28 object-cover rounded-lg" />
+                <button
+                  onClick={() => handleRemovePhoto(photo)}
+                  disabled={removingPhoto === photo}
+                  className="absolute top-1 right-1 p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ backgroundColor: '#ef4444' }}
+                  title="Remover foto">
+                  <Trash2 size={14} className="text-white" />
+                </button>
+              </div>
             ))}
           </div>
         ) : (
@@ -162,7 +183,7 @@ export default function EquipmentDetailPage() {
             {generatingQR ? 'Gerando...' : equipment.qrCode ? 'Regenerar' : 'Gerar QR Code'}
           </button>
         </div>
-        {equipment.qrCode && (showQR || true) ? (
+        {equipment.qrCode ? (
           <div className="flex flex-col items-center gap-3">
             <img src={equipment.qrCode} alt="QR Code" className="w-48 h-48 rounded-lg" />
             <p className="text-xs" style={{ color: 'var(--muted)' }}>
@@ -184,11 +205,11 @@ export default function EquipmentDetailPage() {
       {/* Rental history */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
         <h2 className="text-sm font-semibold text-white mb-4">Historico de Locacoes</h2>
-        {equipment.rentals?.length === 0 ? (
+        {!equipment.rentals?.length ? (
           <p className="text-sm" style={{ color: 'var(--muted)' }}>Nenhuma locacao registrada</p>
         ) : (
           <div className="space-y-3">
-            {equipment.rentals?.map(rental => (
+            {equipment.rentals.map(rental => (
               <div key={rental.id} className="flex items-center justify-between py-3 border-b last:border-0"
                 style={{ borderColor: 'var(--card-border)' }}>
                 <div>
@@ -216,11 +237,11 @@ export default function EquipmentDetailPage() {
       {/* Maintenance history */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
         <h2 className="text-sm font-semibold text-white mb-4">Historico de Manutencoes</h2>
-        {equipment.maintenances?.length === 0 ? (
+        {!equipment.maintenances?.length ? (
           <p className="text-sm" style={{ color: 'var(--muted)' }}>Nenhuma manutencao registrada</p>
         ) : (
           <div className="space-y-3">
-            {equipment.maintenances?.map(m => (
+            {equipment.maintenances.map(m => (
               <div key={m.id} className="flex items-center justify-between py-3 border-b last:border-0"
                 style={{ borderColor: 'var(--card-border)' }}>
                 <div>

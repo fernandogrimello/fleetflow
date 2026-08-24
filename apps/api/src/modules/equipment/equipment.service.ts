@@ -124,3 +124,12 @@ export async function getPublic(id: string) {
   if (!equipment) throw new Error('Equipamento nao encontrado')
   return equipment
 }
+
+export async function removePhoto(id: string, photoUrl: string) {
+  const equipment = await getById(id)
+  const updatedPhotos = equipment.photos.filter((p: string) => p !== photoUrl)
+  return prisma.equipment.update({
+    where: { id },
+    data: { photos: updatedPhotos },
+  })
+}
