@@ -14,10 +14,12 @@ import {
   LogOut,
   Menu,
   X,
+  Map,
 } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: 'Painel de Frota', icon: LayoutDashboard },
+  { href: '/dashboard/map', label: 'Mapa da Frota', icon: Map },
   { href: '/dashboard/rentals', label: 'Locacoes', icon: ClipboardList },
   { href: '/dashboard/maintenance', label: 'Manutencao', icon: Wrench },
   { href: '/dashboard/financial', label: 'Financeiro', icon: DollarSign },
@@ -41,7 +43,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: 'var(--background)' }}>
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 flex flex-col border-r transition-transform duration-300 lg:translate-x-0 lg:static lg:flex ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}
@@ -84,12 +85,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         <header className="lg:hidden flex items-center gap-4 px-4 py-3 border-b" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white">

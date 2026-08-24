@@ -65,12 +65,15 @@ model Equipment {
   status        EquipmentStatus @default(AVAILABLE)
   dailyRate     Decimal         @db.Decimal(10, 2)
   purchasePrice Decimal         @db.Decimal(10, 2)
+  odometer      Float           @default(0)
+  odometerAlert Float           @default(10000)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 
   rentals      Rental[]
   maintenances Maintenance[]
   insurance    Insurance?
+  locations    VehicleLocation[]
 }
 
 model Rental {
@@ -158,4 +161,15 @@ model Claim {
   notes       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+}
+
+model VehicleLocation {
+  id          String    @id @default(uuid())
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+  latitude    Float
+  longitude   Float
+  odometer    Float     @default(0)
+  recordedAt  DateTime  @default(now())
+  source      String    @default("manual")
 }

@@ -13,6 +13,7 @@ import metricsRoutes from './modules/metrics/metrics.routes'
 import insuranceRoutes from './modules/insurance/insurance.routes'
 import clientsRoutes from './modules/clients/clients.routes'
 import aiRoutes from './modules/ai/ai.routes'
+import telemetryRoutes from './modules/telemetry/telemetry.routes'
 
 dotenv.config()
 
@@ -50,5 +51,6 @@ app.use('/metrics', metricsRoutes)
 app.use('/insurance', insuranceRoutes)
 app.use('/clients', clientsRoutes)
 app.use('/ai', aiRoutes)
+app.use('/telemetry', telemetryRoutes)
 
 export default app
