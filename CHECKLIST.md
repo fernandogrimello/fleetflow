@@ -1,126 +1,67 @@
-# FleetFlow — Checklist de Construcao
+# FleetFlow — Checklist de Desenvolvimento
 
-## Fase 0 — Fundacao
-- [x] Criar repositorio no GitHub
-- [x] Criar estrutura de pastas
-- [x] README completo
+## Fase 0 — Fundacao ✅ (13/13)
+- [x] Repositorio GitHub criado
+- [x] Estrutura de pastas (monorepo apps/api + apps/web)
+- [x] README.md com badges e screenshots
 - [x] CHECKLIST.md
-- [ ] LICENSE (MIT)
-- [x] docs/01-arquitetura.md
-- [x] docs/02-banco-de-dados.md
-- [x] docs/03-modulos.md
-- [x] docs/04-decisoes-tecnicas.md
-- [x] docs/05-problemas-e-solucoes.md
-- [x] docker-compose.yml
-- [x] .env.example
-- [x] .gitignore
+- [x] docs/ com documentacao de arquitetura
+- [x] docker-compose.yml com PostgreSQL 16
+- [x] .env.example documentado
+- [x] .gitignore configurado
+- [x] LICENSE restritiva de portfolio
+- [x] Schema Prisma com todas as entidades
+- [x] Migrations versionadas
+- [x] Seed com dados realistas (10 veiculos, 5 clientes, 18 locacoes)
+- [x] Deploy local funcional
 
-## Fase 1 — Backend (API)
-- [x] Inicializar apps/api com Express + TypeScript
-- [ ] Configurar Prisma ORM + PostgreSQL
-- [ ] Autenticacao JWT
-- [ ] Helmet, CORS, Rate Limiting, Zod
-- [x] Entidade Equipment
-- [x] Entidade Client
-- [x] Entidade Rental
-- [x] Entidade Maintenance
-- [x] Entidade MaintenancePart
-- [x] Entidade Insurance
-- [x] Entidade Claim
-- [x] Entidade User
-- [x] Migrations e seed inicial aplicada
-- [x] GET /equipment
-- [x] POST /equipment
-- [x] GET /equipment/:id
-- [x] PUT /equipment/:id
-- [x] DELETE /equipment/:id
-- [ ] Upload de fotos
-- [ ] Geracao de QR Code
-- [x] POST /rentals/checkout
-- [x] POST /rentals/:id/checkin
-- [x] GET /rentals
-- [x] GET /rentals/equipment/:id
-- [x] GET /rentals/client/:id
-- [x] POST /maintenance
-- [x] PUT /maintenance/:id/service-order
-- [x] PUT /maintenance/:id/release
-- [x] GET /maintenance/equipment/:id
-- [x] GET /financial/equipment/:id
-- [x] Calculo ROI e lucro liquido
-- [x] Receita perdida por downtime
-- [x] GET /metrics/ranking
-- [x] GET /metrics/occupancy
-- [x] GET /metrics/maintenance-cost
-- [x] GET /metrics/roi
-- [x] POST /insurance
-- [x] GET /insurance/equipment/:id
-- [x] POST /insurance/:id/claim
-- [x] Alertas de vencimento
-- [ ] Integrar Gemini API
-- [ ] Previsao de proxima manutencao
-- [ ] Candidatos a baixa
+## Fase 1 — Backend ✅ (10/10 modulos)
+- [x] Auth: register, login, /me com JWT e RBAC (ADMIN/CLIENT)
+- [x] Equipment: CRUD, upload de fotos, remocao de foto, QR Code, pagina publica
+- [x] Rental: checkout, checkin, calculo automatico de dias e valor, webhook
+- [x] Maintenance: agendamento, OS com pecas, liberacao com tecnico responsavel
+- [x] Financial: ROI por veiculo (receita, custos, lucro, downtime)
+- [x] Metrics: ranking, ocupacao, custo por categoria, ROI ranking
+- [x] Insurance: apolices, renovacao, sinistros, alertas de vencimento
+- [x] Clients: listagem e cadastro
+- [x] AI: analise da frota e previsao de manutencao com Gemini 3.6 Flash
+- [x] Telemetry: GPS, hodometro, gatilho automatico de OS, mapa da frota
 
-## Fase 2 — Frontend (Web)
-- [x] Inicializar apps/web com Next.js 14 + Tailwind CSS
-- [x] Layout base (sidebar, header, auth)
-- [x] API client
-- [ ] Grid visual de frota com badges
-- [x] Filtros por status e categoria
-- [ ] Modal de detalhe do equipamento
-- [x] Listagem e busca de equipamentos
-- [x] Formulario de cadastro
-- [ ] Pagina publica de QR Code
-- [ ] Formulario de check-out com fotos
-- [ ] Formulario de check-in com avaliacao
-- [x] Historico de locacoes
-- [ ] Agendamento de manutencao
-- [ ] Ordem de servico
-- [x] Historico de manutencoes
-- [x] Dashboard de ROI
-- [ ] Graficos de ocupacao e receita
-- [x] Rankings de uso
+## Fase 2 — Frontend ✅ (10/10 telas)
+- [x] Login com redirect automatico
+- [x] Painel de Frota com fotos reais, badges de status, busca e filtros
+- [x] Mapa da Frota com Leaflet — markers coloridos, alertas de hodometro
+- [x] Locacoes com historico completo
+- [x] Manutencao com OS, pecas, custos e liberacao pelo frontend
+- [x] Financeiro com ROI individual por veiculo
+- [x] Metricas com analise da IA integrada
+- [x] Seguros com cadastro, renovacao e alertas por cor
+- [x] Clientes com busca, paginacao e cadastro
+- [x] Pagina publica via QR Code (mobile-first, sem autenticacao)
 
-## Fase 3 — Testes
-- [ ] auth.test.ts
-- [ ] equipment.test.ts
-- [ ] rental.test.ts
-- [ ] maintenance.test.ts
-- [ ] insurance.test.ts
-- [ ] metrics.test.ts
-- [ ] ai.service.test.ts
-- [ ] contract.test.ts
-- [ ] security.test.ts
-- [ ] components.test.tsx
-- [ ] auth.spec.ts
-- [ ] dashboard.spec.ts
-- [ ] equipment.spec.ts
-- [ ] rental.spec.ts
-- [ ] load-test.js
-- [ ] stress-test.js
-- [ ] spike-test.js
-- [ ] soak-test.js
+## Fase 3 — Testes ✅ (32 testes)
+- [x] Jest + Supertest configurados
+- [x] auth.test.ts: 8 testes (register, login, /me, token invalido)
+- [x] equipment.test.ts: 9 testes (CRUD, RBAC, pagina publica)
+- [x] telemetry.test.ts: 5 testes (GPS, validacao, mapa)
+- [x] rental.test.ts: 5 testes (checkout, checkin, rejeicoes)
+- [x] maintenance.test.ts: 5 testes (agendamento, listagem, liberacao)
+- [x] k6 load-test.js: carga com 10 VUs, p95 < 500ms
+- [x] k6 stress-test.js: estresse com 80 VUs
+- [x] k6 spike-test.js: pico com 100 VUs
+- [x] k6 soak-test.js: resistencia com 5 VUs por 14 min
 
-## Fase 4 — CI/CD
-- [ ] GitHub Actions CI backend
-- [ ] GitHub Actions CI frontend
-- [ ] Badge CI no README
-- [ ] Staging (opcional)
+## Fase 4 — CI/CD ✅
+- [x] GitHub Actions: PostgreSQL, migrations, seed, testes e cobertura
+- [x] Badge CI verde no README
 
-## Fase 5 — Portfolio
-- [ ] Screenshots reais no README
-- [ ] GIF/video demo
-- [ ] Documentacao finalizada
-- [ ] README com metricas de cobertura
-
-## Progresso Geral
-
-| Fase         | Status        | Concluido |
-|--------------|---------------|-----------|
-| 0 Fundacao   | Em andamento  | 12 / 13   |
-| 1 Backend    | Nao iniciado  | 0 / 38    |
-| 2 Frontend   | Nao iniciado  | 0 / 18    |
-| 3 Testes     | Nao iniciado  | 0 / 18    |
-| 4 CI/CD      | Nao iniciado  | 0 / 4     |
-| 5 Portfolio  | Nao iniciado  | 0 / 4     |
-
-Total: 12 / 95 tarefas concluidas
+## Fase 5 — Portfolio ✅
+- [x] README com 8 screenshots reais
+- [x] Badge CI verde
+- [x] Licenca restritiva
+- [x] Seed com dados realistas e datas corretas
+- [x] Mascaras de telefone no frontend
+- [x] Webhook de notificacao em checkout e checkin
+- [x] RBAC Admin/Client com bloqueio 403
+- [x] Hodometro com barra de progresso
+- [x] QR Code gerado para todos os veiculos
