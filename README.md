@@ -4,6 +4,7 @@
 
 **Sistema de gestao de frota de veiculos para locacao**
 
+[![CI](https://github.com/fernandogrimello/fleetflow/actions/workflows/ci.yml/badge.svg)](https://github.com/fernandogrimello/fleetflow/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/Licenca-Visualizacao_apenas-red.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-339933?logo=node.js)](https://nodejs.org)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
