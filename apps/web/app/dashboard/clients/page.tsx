@@ -1,8 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import api from '@/lib/api'
-import { Users, Plus, X, Phone, Mail, FileText } from 'lucide-react'
+import { Users, Plus, X, Phone, Mail, FileText, Search, ChevronLeft, ChevronRight } from 'lucide-react'
+
+const PAGE_SIZE = 12
 
 export default function ClientsPage() {
   const [clients, setClients] = useState<any[]>([])
@@ -10,6 +12,8 @@ export default function ClientsPage() {
   const [showForm, setShowForm] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '', document: '' })
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(1)
 
   async function fetchClients() {
     try {
@@ -21,6 +25,21 @@ export default function ClientsPage() {
   }
 
   useEffect(() => { fetchClients() }, [])
+  useEffect(() => { setPage(1) }, [search])
+
+  const filtered = useMemo(() => {
+    if (!search) return clients
+    const q = search.toLowerCase()
+    return clients.filter(c =>
+      c.name.toLowerCase().includes(q) ||
+      c.email.toLowerCase().includes(q) ||
+      (c.phone || '').includes(q) ||
+      (c.document || '').includes(q)
+    )
+  }, [clients, search])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
 
   async function handleSubmit() {
     if (!form.name || !form.email) {
@@ -45,7 +64,9 @@ export default function ClientsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Clientes</h1>
-          <p style={{ color: 'var(--muted)' }}>{clients.length} clientes cadastrados</p>
+          <p style={{ color: 'var(--muted)' }}>
+            {filtered.length} de {clients.length} clientes
+          </p>
         </div>
         <button onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
@@ -55,60 +76,84 @@ export default function ClientsPage() {
         </button>
       </div>
 
+      <div className="relative">
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--muted)' }} />
+        <input value={search} onChange={e => setSearch(e.target.value)}
+          placeholder="Buscar por nome, email, telefone ou documento..."
+          className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-white outline-none"
+          style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }} />
+      </div>
+
       {loading ? (
         <div className="text-white">Carregando...</div>
-      ) : clients.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
           <Users size={48} className="mx-auto mb-4 opacity-30" />
-          <p className="text-lg font-medium text-white mb-1">Nenhum cliente cadastrado</p>
-          <p className="text-sm">Clique em "Novo Cliente" para comecar</p>
+          <p className="text-lg font-medium text-white mb-1">
+            {search ? 'Nenhum cliente encontrado' : 'Nenhum cliente cadastrado'}
+          </p>
+          {!search && <p className="text-sm">Clique em "Novo Cliente" para comecar</p>}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {clients.map(c => (
-            <div key={c.id} className="p-5 rounded-xl border"
-              style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
-                  style={{ backgroundColor: 'var(--primary)' }}>
-                  {c.name.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <div className="text-white font-semibold">{c.name}</div>
-                  <div className="text-xs" style={{ color: 'var(--muted)' }}>
-                    {new Date(c.createdAt).toLocaleDateString('pt-BR')}
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {paginated.map(c => (
+              <div key={c.id} className="p-5 rounded-xl border"
+                style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shrink-0"
+                    style={{ backgroundColor: 'var(--primary)' }}>
+                    {c.name.charAt(0).toUpperCase()}
                   </div>
+                  <div className="min-w-0">
+                    <div className="text-white font-semibold truncate">{c.name}</div>
+                    <div className="text-xs" style={{ color: 'var(--muted)' }}>
+                      {new Date(c.createdAt).toLocaleDateString('pt-BR')}
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+                    <Mail size={14} className="shrink-0" />
+                    <span className="truncate">{c.email}</span>
+                  </div>
+                  {c.phone && (
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+                      <Phone size={14} className="shrink-0" />
+                      <span>{c.phone}</span>
+                    </div>
+                  )}
+                  {c.document && (
+                    <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
+                      <FileText size={14} className="shrink-0" />
+                      <span>{c.document}</span>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-                  <Mail size={14} />
-                  <span className="truncate">{c.email}</span>
-                </div>
-                {c.phone && (
-                  <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-                    <Phone size={14} />
-                    <span>{c.phone}</span>
-                  </div>
-                )}
-                {c.document && (
-                  <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-                    <FileText size={14} />
-                    <span>{c.document}</span>
-                  </div>
-                )}
-              </div>
-              {c.rentals && (
-                <div className="mt-3 pt-3 border-t text-xs" style={{ borderColor: 'var(--card-border)', color: 'var(--muted)' }}>
-                  {c.rentals.length} locacao(oes)
-                </div>
-              )}
+            ))}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4">
+              <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                className="p-2 rounded-lg disabled:opacity-30 hover:bg-slate-700 transition-colors"
+                style={{ color: 'var(--muted)' }}>
+                <ChevronLeft size={20} />
+              </button>
+              <span className="text-sm text-white">
+                Pagina {page} de {totalPages}
+              </span>
+              <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                className="p-2 rounded-lg disabled:opacity-30 hover:bg-slate-700 transition-colors"
+                style={{ color: 'var(--muted)' }}>
+                <ChevronRight size={20} />
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
-      {/* Modal de cadastro */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
