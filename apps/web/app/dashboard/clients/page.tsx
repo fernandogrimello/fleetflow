@@ -4,6 +4,24 @@ import { useEffect, useState, useMemo } from 'react'
 import api from '@/lib/api'
 import { Users, Plus, X, Phone, Mail, FileText, Search, ChevronLeft, ChevronRight } from 'lucide-react'
 
+function formatPhone(phone: string) {
+  const digits = phone.replace(/\D/g, '')
+  if (digits.length === 13) return `+${digits.slice(0,2)} (${digits.slice(2,4)}) ${digits.slice(4,9)}-${digits.slice(9)}`
+  if (digits.length === 12) return `+${digits.slice(0,2)} (${digits.slice(2,4)}) ${digits.slice(4,8)}-${digits.slice(8)}`
+  if (digits.length === 11) return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`
+  if (digits.length === 10) return `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`
+  return phone
+}
+
+function maskPhone(value: string) {
+  const digits = value.replace(/\D/g, '')
+  if (digits.length <= 2) return digits.length ? `(${digits}` : ''
+  if (digits.length <= 6) return `(${digits.slice(0,2)}) ${digits.slice(2)}`
+  if (digits.length <= 10) return `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`
+  if (digits.length <= 11) return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`
+  return `+${digits.slice(0,2)} (${digits.slice(2,4)}) ${digits.slice(4,9)}-${digits.slice(9,13)}`
+}
+
 const PAGE_SIZE = 12
 
 export default function ClientsPage() {
@@ -120,7 +138,7 @@ export default function ClientsPage() {
                   {c.phone && (
                     <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
                       <Phone size={14} className="shrink-0" />
-                      <span>{c.phone}</span>
+                      <span>{formatPhone(c.phone)}</span>
                     </div>
                   )}
                   {c.document && (
@@ -168,14 +186,14 @@ export default function ClientsPage() {
               {[
                 { label: 'Nome *', key: 'name', placeholder: 'Nome completo ou razao social' },
                 { label: 'Email *', key: 'email', placeholder: 'email@empresa.com.br' },
-                { label: 'Telefone', key: 'phone', placeholder: '(61) 99999-0000' },
+                { label: 'Telefone', key: 'phone', placeholder: '(61) 99999-0000', mask: true },
                 { label: 'CPF / CNPJ', key: 'document', placeholder: '000.000.000-00' },
-              ].map(({ label, key, placeholder }) => (
+              ].map(({ label, key, placeholder, mask }: any) => (
                 <div key={key}>
                   <label className="text-sm font-medium text-white mb-2 block">{label}</label>
                   <input
                     value={form[key as keyof typeof form]}
-                    onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
+                    onChange={e => setForm(prev => ({ ...prev, [key]: mask ? maskPhone(e.target.value) : e.target.value }))}
                     placeholder={placeholder}
                     className="w-full px-4 py-3 rounded-xl text-white outline-none"
                     style={{ backgroundColor: '#0f172a', border: '1px solid var(--card-border)' }}

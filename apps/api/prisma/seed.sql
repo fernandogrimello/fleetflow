@@ -87,10 +87,10 @@ INSERT INTO "MaintenancePart" (id, "maintenanceId", name, quantity, "unitPrice",
 
 -- ── Seguros ──────────────────────────────────────────────────
 INSERT INTO "Insurance" (id, "equipmentId", "policyNumber", insurer, "insuredValue", premium, "startDate", "endDate", coverage, "createdAt", "updatedAt") VALUES
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000001', 'POL-2025-001', 'Porto Seguro', 220000.00, 7200.00, '2025-01-05', '2025-12-31', 'Roubo, colisao, dano total e responsabilidade civil', NOW(), NOW()),
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000002', 'POL-2025-002', 'Allianz', 180000.00, 5800.00, '2025-01-05', '2025-12-31', 'Roubo, colisao e dano total', NOW(), NOW()),
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000001', 'POL-2026-001', 'Porto Seguro', 220000.00, 7200.00, '2026-01-01', '2026-12-31', 'Roubo, colisao, dano total e responsabilidade civil', NOW(), NOW()),
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000002', 'POL-2026-002', 'Allianz', 180000.00, 5800.00, '2026-01-01', '2026-12-31', 'Roubo, colisao e dano total', NOW(), NOW()),
   (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000003', 'POL-2025-003', 'Bradesco Seguros', 190000.00, 6200.00, '2025-01-08', '2025-12-31', 'Cobertura completa', NOW(), NOW()),
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000004', 'POL-2025-004', 'Porto Seguro', 210000.00, 6800.00, '2025-01-08', '2026-01-08', 'Cobertura completa', NOW(), NOW()),
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000006', 'POL-2025-006', 'Mapfre', 280000.00, 9200.00, '2025-02-01', '2026-02-01', 'Cobertura completa incluindo danos de terceiros', NOW(), NOW()),
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000008', 'POL-2025-008', 'Allianz', 260000.00, 8500.00, '2025-03-01', '2026-03-01', 'Cobertura completa', NOW(), NOW()),
-  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000009', 'POL-2025-009', 'Porto Seguro', 250000.00, 8100.00, '2025-03-01', '2026-03-01', 'Cobertura completa', NOW(), NOW());
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000004', 'POL-2026-004', 'Porto Seguro', 210000.00, 6800.00, '2026-08-01', '2027-08-01', 'Cobertura completa', NOW(), NOW()),
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000006', 'POL-2026-006', 'Mapfre', 280000.00, 9200.00, '2026-02-01', '2027-02-01', 'Cobertura completa incluindo danos de terceiros', NOW(), NOW()),
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000008', 'POL-2026-008', 'Allianz', 260000.00, 8500.00, '2026-03-01', '2026-10-01', 'Cobertura completa', NOW(), NOW()),
+  (gen_random_uuid(), 'e1000001-0000-0000-0000-000000000009', 'POL-2026-009', 'Porto Seguro', 250000.00, 8100.00, '2026-03-01', '2026-11-15', 'Cobertura completa', NOW(), NOW());
