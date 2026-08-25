@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import * as metricsController from './metrics.controller'
-import { authMiddleware } from '../../middlewares/auth.middleware'
+import { authMiddleware, adminMiddleware } from '../../middlewares/auth.middleware'
 
 const router = Router()
 
 router.use(authMiddleware)
+router.use(adminMiddleware)
 
 router.get('/ranking', metricsController.getRanking)
 router.get('/occupancy', metricsController.getOccupancy)

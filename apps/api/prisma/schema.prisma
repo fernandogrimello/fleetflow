@@ -26,11 +26,17 @@ enum RentalCondition {
   DAMAGED
 }
 
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
+  role      UserRole @default(ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
