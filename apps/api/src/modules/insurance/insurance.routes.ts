@@ -6,9 +6,10 @@ const router = Router()
 
 router.use(authMiddleware)
 
-router.post('/', insuranceController.create)
 router.get('/expiring', insuranceController.getExpiringPolicies)
-router.get('/equipment/:equipmentId', insuranceController.getByEquipment)
-router.post('/:id/claim', insuranceController.createClaim)
+router.get('/:equipmentId', insuranceController.getByEquipment)
+router.post('/', insuranceController.create)
+router.put('/:id', insuranceController.renewInsurance)
+router.post('/:insuranceId/claims', insuranceController.createClaim)
 
 export default router

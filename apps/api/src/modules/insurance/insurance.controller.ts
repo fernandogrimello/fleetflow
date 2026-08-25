@@ -60,3 +60,12 @@ export async function getExpiringPolicies(req: AuthRequest, res: Response): Prom
     handleError(error, res, 500)
   }
 }
+
+export async function renewInsurance(req: Request, res: Response): Promise<void> {
+  try {
+    const result = await insuranceService.renewInsurance(req.params.id, req.body)
+    res.json(result)
+  } catch (error) {
+    handleError(error, res)
+  }
+}

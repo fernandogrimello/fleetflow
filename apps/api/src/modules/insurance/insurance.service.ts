@@ -77,3 +77,24 @@ export async function getExpiringPolicies(daysAhead = 30) {
     orderBy: { endDate: 'asc' },
   })
 }
+
+export async function renewInsurance(id: string, data: {
+  policyNumber: string
+  premium: number
+  startDate: string
+  endDate: string
+}) {
+  const insurance = await prisma.insurance.findUnique({ where: { id } })
+  if (!insurance) throw new Error('Apolice nao encontrada')
+
+  return prisma.insurance.update({
+    where: { id },
+    data: {
+      policyNumber: data.policyNumber,
+      premium: data.premium,
+      startDate: new Date(data.startDate),
+      endDate: new Date(data.endDate),
+    },
+    include: { equipment: { select: { id: true, name: true } } },
+  })
+}
