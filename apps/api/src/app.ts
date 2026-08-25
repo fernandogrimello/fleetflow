@@ -28,7 +28,7 @@ app.use(cors({
 
 app.use(rateLimit({
   windowMs: Number(process.env.RATE_LIMIT_WINDOW_MS) || 900000,
-  max: Number(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  max: process.env.NODE_ENV === 'test' ? 10000 : (Number(process.env.RATE_LIMIT_MAX_REQUESTS) || 100),
   message: { error: 'Muitas requisicoes. Tente novamente em breve.' },
 }))
 

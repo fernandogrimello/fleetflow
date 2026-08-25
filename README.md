@@ -85,6 +85,8 @@ e formulário de abertura de chamado direto do campo.*
 
 **Infra:** Docker + Docker Compose
 
+**Testes:** Jest + Supertest (32 testes) · Playwright E2E (11 testes) · k6 Performance (4 cenários)
+
 ---
 
 ## Como rodar localmente

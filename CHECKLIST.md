@@ -50,6 +50,9 @@
 - [x] k6 stress-test.js: estresse com 80 VUs
 - [x] k6 spike-test.js: pico com 100 VUs
 - [x] k6 soak-test.js: resistencia com 5 VUs por 14 min
+- [x] Playwright auth.spec.ts: 4 testes E2E (redirect, login, rejeicao, logout)
+- [x] Playwright dashboard.spec.ts: 6 testes E2E (veiculos, busca, detalhe, mapa, clientes, seguros)
+- [x] storageState compartilhado entre testes E2E
 
 ## Fase 4 — CI/CD ✅
 - [x] GitHub Actions: PostgreSQL, migrations, seed, testes e cobertura
