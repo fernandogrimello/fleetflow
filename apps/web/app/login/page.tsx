@@ -32,7 +32,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md p-8 rounded-2xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-1">FleetFlow</h1>
-          <p style={{ color: 'var(--muted)' }}>Gestao de frota de equipamentos</p>
+          <p style={{ color: 'var(--muted)' }}>Gestão de frota de veículos</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
