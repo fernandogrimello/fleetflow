@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { z } from 'zod'
 import * as equipmentService from './equipment.service'
 import { AuthRequest } from '../../middlewares/auth.middleware'
@@ -48,7 +48,7 @@ export async function list(req: AuthRequest, res: Response): Promise<void> {
 
 export async function getById(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const equipment = await equipmentService.getById(req.params.id)
+    const equipment = await equipmentService.getById(req.params.id as string)
     res.json(equipment)
   } catch (error) {
     handleError(error, res, 404)
@@ -58,7 +58,7 @@ export async function getById(req: AuthRequest, res: Response): Promise<void> {
 export async function update(req: AuthRequest, res: Response): Promise<void> {
   try {
     const data = updateSchema.parse(req.body)
-    const equipment = await equipmentService.update(req.params.id, data)
+    const equipment = await equipmentService.update(req.params.id as string, data)
     res.json(equipment)
   } catch (error) {
     handleError(error, res)
@@ -67,7 +67,7 @@ export async function update(req: AuthRequest, res: Response): Promise<void> {
 
 export async function decommission(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const equipment = await equipmentService.decommission(req.params.id)
+    const equipment = await equipmentService.decommission(req.params.id as string)
     res.json(equipment)
   } catch (error) {
     handleError(error, res)
@@ -82,7 +82,7 @@ export async function addPhotos(req: AuthRequest, res: Response): Promise<void> 
       return
     }
     const filenames = files.map(f => f.filename)
-    const equipment = await equipmentService.addPhotos(req.params.id, filenames)
+    const equipment = await equipmentService.addPhotos(req.params.id as string, filenames)
     res.json(equipment)
   } catch (error) {
     handleError(error, res)
@@ -91,16 +91,16 @@ export async function addPhotos(req: AuthRequest, res: Response): Promise<void> 
 
 export async function generateQRCode(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const result = await equipmentService.generateAndSaveQRCode(req.params.id)
+    const result = await equipmentService.generateAndSaveQRCode(req.params.id as string)
     res.json(result)
   } catch (error) {
     handleError(error, res)
   }
 }
 
-export async function getPublic(req: Request, res: Response): Promise<void> {
+export async function getPublic(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const equipment = await equipmentService.getPublic(req.params.id)
+    const equipment = await equipmentService.getPublic(req.params.id as string)
     res.json(equipment)
   } catch (error) {
     handleError(error, res, 404)
@@ -114,7 +114,7 @@ export async function removePhoto(req: AuthRequest, res: Response): Promise<void
       res.status(400).json({ error: 'URL da foto obrigatoria' })
       return
     }
-    const equipment = await equipmentService.removePhoto(req.params.id, photoUrl)
+    const equipment = await equipmentService.removePhoto(req.params.id as string, photoUrl)
     res.json(equipment)
   } catch (error) {
     handleError(error, res)

@@ -5,7 +5,7 @@ import { upload } from '../../utils/upload'
 
 const router = Router()
 
-router.get('/public/:id', equipmentController.getPublic)
+router.get('/public/:id', equipmentController.getPublic as any)
 
 router.use(authMiddleware)
 

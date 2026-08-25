@@ -7,27 +7,17 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest --runInBand",
-    "test:coverage": "jest --runInBand --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node src/prisma/seed.ts"
+    "prisma:seed": "ts-node src/prisma/seed.ts",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "Fernando Grimello <luizfernandogrimello@hotmail.com>",
   "license": "MIT",
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/*.test.ts"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/prisma/seed.ts"
-    ]
-  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",

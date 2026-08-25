@@ -31,7 +31,7 @@ export async function create(req: Request, res: Response): Promise<void> {
 
 export async function getById(req: Request, res: Response): Promise<void> {
   try {
-    const client = await clientsService.getById(req.params.id)
+    const client = await clientsService.getById(req.params.id as string)
     res.json(client)
   } catch (error) {
     handleError(error, res, 404)

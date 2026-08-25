@@ -40,7 +40,7 @@ export async function schedule(req: AuthRequest, res: Response): Promise<void> {
 export async function createServiceOrder(req: AuthRequest, res: Response): Promise<void> {
   try {
     const data = serviceOrderSchema.parse(req.body)
-    const result = await maintenanceService.createServiceOrder(req.params.id, data)
+    const result = await maintenanceService.createServiceOrder(req.params.id as string, data)
     res.json(result)
   } catch (error) {
     handleError(error, res)
@@ -50,7 +50,7 @@ export async function createServiceOrder(req: AuthRequest, res: Response): Promi
 export async function release(req: AuthRequest, res: Response): Promise<void> {
   try {
     const data = releaseSchema.parse(req.body)
-    const result = await maintenanceService.release(req.params.id, { ...data, releasedById: req.userId! })
+    const result = await maintenanceService.release(req.params.id as string, { ...data, releasedById: req.userId! })
     res.json(result)
   } catch (error) {
     handleError(error, res)
@@ -59,7 +59,7 @@ export async function release(req: AuthRequest, res: Response): Promise<void> {
 
 export async function listByEquipment(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const result = await maintenanceService.listByEquipment(req.params.equipmentId)
+    const result = await maintenanceService.listByEquipment(req.params.equipmentId as string)
     res.json(result)
   } catch (error) {
     handleError(error, res, 500)
@@ -68,7 +68,7 @@ export async function listByEquipment(req: AuthRequest, res: Response): Promise<
 
 export async function getById(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const result = await maintenanceService.getById(req.params.id)
+    const result = await maintenanceService.getById(req.params.id as string)
     res.json(result)
   } catch (error) {
     handleError(error, res, 404)

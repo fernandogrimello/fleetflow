@@ -34,7 +34,7 @@ export async function create(req: AuthRequest, res: Response): Promise<void> {
 
 export async function getByEquipment(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const result = await insuranceService.getByEquipment(req.params.equipmentId)
+    const result = await insuranceService.getByEquipment(req.params.equipmentId as string)
     res.json(result)
   } catch (error) {
     handleError(error, res, 404)
@@ -44,7 +44,7 @@ export async function getByEquipment(req: AuthRequest, res: Response): Promise<v
 export async function createClaim(req: AuthRequest, res: Response): Promise<void> {
   try {
     const data = claimSchema.parse(req.body)
-    const result = await insuranceService.createClaim(req.params.id, data)
+    const result = await insuranceService.createClaim(req.params.id as string, data)
     res.status(201).json(result)
   } catch (error) {
     handleError(error, res)
@@ -61,9 +61,9 @@ export async function getExpiringPolicies(req: AuthRequest, res: Response): Prom
   }
 }
 
-export async function renewInsurance(req: Request, res: Response): Promise<void> {
+export async function renewInsurance(req: AuthRequest, res: Response): Promise<void> {
   try {
-    const result = await insuranceService.renewInsurance(req.params.id, req.body)
+    const result = await insuranceService.renewInsurance(req.params.id as string, req.body)
     res.json(result)
   } catch (error) {
     handleError(error, res)

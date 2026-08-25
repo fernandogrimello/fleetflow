@@ -34,7 +34,7 @@ export async function register(input: RegisterInput) {
   const token = jwt.sign(
     { userId: user.id, role: user.role },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    { expiresIn: '7d' } as any
   )
 
   return { user, token }
@@ -50,7 +50,7 @@ export async function login(input: LoginInput) {
   const token = jwt.sign(
     { userId: user.id, role: user.role },
     process.env.JWT_SECRET!,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    { expiresIn: '7d' } as any
   )
 
   const { password: _, ...userWithoutPassword } = user

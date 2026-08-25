@@ -4,7 +4,7 @@ import { handleError } from '../../utils/handle-error'
 
 export async function predictNextMaintenance(req: Request, res: Response): Promise<void> {
   try {
-    const result = await aiService.predictNextMaintenance(req.params.equipmentId)
+    const result = await aiService.predictNextMaintenance(req.params.equipmentId as string)
     res.json(result)
   } catch (error) {
     handleError(error, res, 500)
