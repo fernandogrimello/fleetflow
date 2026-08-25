@@ -15,6 +15,7 @@ import {
   Menu,
   X,
   Map,
+  Users,
 } from 'lucide-react'
 
 const navItems = [
@@ -24,6 +25,7 @@ const navItems = [
   { href: '/dashboard/maintenance', label: 'Manutencao', icon: Wrench },
   { href: '/dashboard/financial', label: 'Financeiro', icon: DollarSign },
   { href: '/dashboard/metrics', label: 'Metricas', icon: BarChart3 },
+  { href: '/dashboard/clients', label: 'Clientes', icon: Users },
   { href: '/dashboard/insurance', label: 'Seguros', icon: Shield },
 ]
 
