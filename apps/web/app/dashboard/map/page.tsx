@@ -8,9 +8,9 @@ import { MapPin, Gauge, AlertTriangle, CheckCircle, Wrench, Car } from 'lucide-r
 const MapComponent = dynamic(() => import('@/components/FleetMap'), { ssr: false })
 
 const statusConfig = {
-  AVAILABLE:   { label: 'Disponivel', color: '#22c55e' },
+  AVAILABLE:   { label: 'Disponível', color: '#22c55e' },
   RENTED:      { label: 'Alugado',    color: '#3b82f6' },
-  MAINTENANCE: { label: 'Manutencao', color: '#f59e0b' },
+  MAINTENANCE: { label: 'Manutenção', color: '#f59e0b' },
 }
 
 export default function MapPage() {
@@ -32,13 +32,13 @@ export default function MapPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Mapa da Frota</h1>
-          <p style={{ color: 'var(--muted)' }}>{withLocation.length} veiculos com localizacao</p>
+          <p style={{ color: 'var(--muted)' }}>{withLocation.length} veículos com localização</p>
         </div>
         {warnings.length > 0 && (
           <div className="flex items-center gap-2 px-4 py-2 rounded-lg"
             style={{ backgroundColor: '#451a03', color: '#f59e0b' }}>
             <AlertTriangle size={16} />
-            <span className="text-sm font-medium">{warnings.length} alerta(s) de hodometro</span>
+            <span className="text-sm font-medium">{warnings.length} alerta(s) de hodômetro</span>
           </div>
         )}
       </div>
@@ -81,7 +81,7 @@ export default function MapPage() {
                   {v.odometerWarning && (
                     <span className="flex items-center gap-1" style={{ color: '#f59e0b' }}>
                       <AlertTriangle size={10} />
-                      Revisao
+                      Revisão
                     </span>
                   )}
                   {!v.lastLocation && (
@@ -104,7 +104,7 @@ export default function MapPage() {
               <div className="text-white font-medium">{statusConfig[selected.status as keyof typeof statusConfig]?.label}</div>
             </div>
             <div>
-              <div style={{ color: 'var(--muted)' }}>Hodometro</div>
+              <div style={{ color: 'var(--muted)' }}>Hodômetro</div>
               <div className="text-white font-medium">{selected.odometer.toLocaleString('pt-BR')} km</div>
             </div>
             <div>
@@ -115,7 +115,7 @@ export default function MapPage() {
             </div>
             {selected.lastLocation && (
               <div>
-                <div style={{ color: 'var(--muted)' }}>Ultima posicao</div>
+                <div style={{ color: 'var(--muted)' }}>Última posição</div>
                 <div className="text-white font-medium text-xs">
                   {new Date(selected.lastLocation.recordedAt).toLocaleString('pt-BR')}
                 </div>

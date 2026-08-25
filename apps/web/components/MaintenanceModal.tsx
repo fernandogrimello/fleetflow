@@ -44,7 +44,7 @@ export default function MaintenanceModal({ onClose, onSuccess }: Props) {
       onSuccess()
       onClose()
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Erro ao agendar manutencao')
+      setError(err.response?.data?.error || 'Erro ao agendar manutenção')
     } finally {
       setLoading(false)
     }
@@ -55,7 +55,7 @@ export default function MaintenanceModal({ onClose, onSuccess }: Props) {
   const labelClass = "block text-sm font-medium text-slate-300 mb-1"
 
   return (
-    <Modal title="Agendar Manutencao" onClose={onClose} size="md">
+    <Modal title="Agendar Manutenção" onClose={onClose} size="md">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className={labelClass}>Equipamento</label>
@@ -63,24 +63,24 @@ export default function MaintenanceModal({ onClose, onSuccess }: Props) {
             <option value="">Selecione um equipamento...</option>
             {equipments.map(e => (
               <option key={e.id} value={e.id}>
-                {e.name} — {e.brand} {e.model} ({e.status === 'AVAILABLE' ? 'Disponivel' : 'Em Manutencao'})
+                {e.name} — {e.brand} {e.model} ({e.status === 'AVAILABLE' ? 'Disponível' : 'Em Manutenção'})
               </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className={labelClass}>Tipo de Manutencao</label>
+          <label className={labelClass}>Tipo de Manutenção</label>
           <select name="type" value={form.type} onChange={handleChange} required className={inputClass} style={inputStyle}>
-            <option value="PREVENTIVE">Preventiva — revisao programada</option>
+            <option value="PREVENTIVE">Preventiva — revisão programada</option>
             <option value="CORRECTIVE">Corretiva — reparo de avaria</option>
           </select>
         </div>
 
         <div>
-          <label className={labelClass}>Descricao</label>
+          <label className={labelClass}>Descrição</label>
           <textarea name="description" value={form.description} onChange={handleChange} rows={3} required
-            placeholder="Ex: Troca de oleo e filtros — revisao dos 2000h"
+            placeholder="Ex: Troca de óleo e filtros — revisão dos 2000h"
             className={inputClass} style={inputStyle} />
         </div>
 
@@ -104,7 +104,7 @@ export default function MaintenanceModal({ onClose, onSuccess }: Props) {
           <button type="submit" disabled={loading}
             className="flex-1 py-2.5 rounded-lg text-sm font-medium text-white disabled:opacity-50"
             style={{ backgroundColor: '#f59e0b' }}>
-            {loading ? 'Agendando...' : 'Agendar Manutencao'}
+            {loading ? 'Agendando...' : 'Agendar Manutenção'}
           </button>
         </div>
       </form>

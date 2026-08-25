@@ -10,9 +10,9 @@ import CheckoutModal from '@/components/CheckoutModal'
 import MaintenanceModal from '@/components/MaintenanceModal'
 
 const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: string }> = {
-  AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
+  AVAILABLE:      { label: 'Disponível',   color: '#22c55e', bg: '#052e16' },
   RENTED:         { label: 'Alugado',      color: '#3b82f6', bg: '#172554' },
-  MAINTENANCE:    { label: 'Manutencao',   color: '#f59e0b', bg: '#451a03' },
+  MAINTENANCE:    { label: 'Manutenção',   color: '#f59e0b', bg: '#451a03' },
   DECOMMISSIONED: { label: 'Baixado',      color: '#64748b', bg: '#0f172a' },
 }
 
@@ -52,7 +52,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-bold text-white">Painel de Frota</h1>
-          <p style={{ color: 'var(--muted)' }}>{total} veiculos cadastrados</p>
+          <p style={{ color: 'var(--muted)' }}>{total} veículos cadastrados</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <button onClick={() => setModal('checkin')}
@@ -65,19 +65,19 @@ export default function DashboardPage() {
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#3b82f6' }}>
             <LogOut size={16} />
-            Check-out (Devolucao)
+            Check-out (Devolução)
           </button>
           <button onClick={() => setModal('maintenance')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#f59e0b' }}>
             <Wrench size={16} />
-            Manutencao
+            Manutenção
           </button>
           <Link href="/dashboard/equipment/new"
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: 'var(--primary)' }}>
             <Plus size={16} />
-            Veiculo
+            Veículo
           </Link>
         </div>
       </div>
@@ -115,8 +115,8 @@ export default function DashboardPage() {
       ) : equipment.length === 0 ? (
         <div className="text-center py-20" style={{ color: 'var(--muted)' }}>
           <div className="text-5xl mb-4">🚗</div>
-          <div className="text-lg font-medium text-white mb-1">Nenhum veiculo encontrado</div>
-          <div className="text-sm">Cadastre o primeiro veiculo da frota</div>
+          <div className="text-lg font-medium text-white mb-1">Nenhum veículo encontrado</div>
+          <div className="text-sm">Cadastre o primeiro veículo da frota</div>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">

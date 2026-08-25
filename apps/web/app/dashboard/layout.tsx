@@ -21,10 +21,10 @@ import {
 const navItems = [
   { href: '/dashboard', label: 'Painel de Frota', icon: LayoutDashboard },
   { href: '/dashboard/map', label: 'Mapa da Frota', icon: Map },
-  { href: '/dashboard/rentals', label: 'Locacoes', icon: ClipboardList },
-  { href: '/dashboard/maintenance', label: 'Manutencao', icon: Wrench },
+  { href: '/dashboard/rentals', label: 'Locações', icon: ClipboardList },
+  { href: '/dashboard/maintenance', label: 'Manutenção', icon: Wrench },
   { href: '/dashboard/financial', label: 'Financeiro', icon: DollarSign },
-  { href: '/dashboard/metrics', label: 'Metricas', icon: BarChart3 },
+  { href: '/dashboard/metrics', label: 'Métricas', icon: BarChart3 },
   { href: '/dashboard/clients', label: 'Clientes', icon: Users },
   { href: '/dashboard/insurance', label: 'Seguros', icon: Shield },
 ]
@@ -51,7 +51,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <div className="p-6 border-b" style={{ borderColor: 'var(--card-border)' }}>
           <h1 className="text-xl font-bold text-white">FleetFlow</h1>
-          <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>Gestao de Frota</p>
+          <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>Gestão de Frota</p>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">

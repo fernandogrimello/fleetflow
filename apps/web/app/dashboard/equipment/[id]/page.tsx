@@ -8,9 +8,9 @@ import { Equipment, Rental, Maintenance } from '@/types'
 import { ArrowLeft, Calendar, Wrench, DollarSign, QrCode, Camera, Trash2 } from 'lucide-react'
 
 const statusConfig = {
-  AVAILABLE:      { label: 'Disponivel',   color: '#22c55e', bg: '#052e16' },
+  AVAILABLE:      { label: 'Disponível',   color: '#22c55e', bg: '#052e16' },
   RENTED:         { label: 'Alugado',      color: '#3b82f6', bg: '#172554' },
-  MAINTENANCE:    { label: 'Manutencao',   color: '#f59e0b', bg: '#451a03' },
+  MAINTENANCE:    { label: 'Manutenção',   color: '#f59e0b', bg: '#451a03' },
   DECOMMISSIONED: { label: 'Baixado',      color: '#64748b', bg: '#0f172a' },
 }
 
@@ -138,13 +138,13 @@ export default function EquipmentDetailPage() {
       {/* Info cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-          <h2 className="text-sm font-semibold text-white mb-4">Informacoes</h2>
+          <h2 className="text-sm font-semibold text-white mb-4">Informações</h2>
           <div className="space-y-3 text-sm">
             {[
               ['Categoria', equipment.category],
-              ['Numero de Serie', equipment.serialNumber],
-              ['Diaria', `R$ ${Number(equipment.dailyRate).toLocaleString('pt-BR')}`],
-              ['Valor de Aquisicao', `R$ ${Number(equipment.purchasePrice).toLocaleString('pt-BR')}`],
+              ['Número de Serie', equipment.serialNumber],
+              ['Diária', `R$ ${Number(equipment.dailyRate).toLocaleString('pt-BR')}`],
+              ['Valor de Aquisição', `R$ ${Number(equipment.purchasePrice).toLocaleString('pt-BR')}`],
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between">
                 <span style={{ color: 'var(--muted)' }}>{label}</span>
@@ -158,8 +158,8 @@ export default function EquipmentDetailPage() {
           <h2 className="text-sm font-semibold text-white mb-4">Resumo</h2>
           <div className="grid grid-cols-3 gap-3">
             {[
-              { icon: Calendar, label: 'Locacoes', value: equipment.rentals?.length || 0, color: '#3b82f6' },
-              { icon: Wrench, label: 'Manutencoes', value: equipment.maintenances?.length || 0, color: '#f59e0b' },
+              { icon: Calendar, label: 'Locações', value: equipment.rentals?.length || 0, color: '#3b82f6' },
+              { icon: Wrench, label: 'Manutenções', value: equipment.maintenances?.length || 0, color: '#f59e0b' },
               { icon: DollarSign, label: 'Receita', value: `R$${(equipment.rentals?.reduce((s, r) => s + Number(r.totalAmount || 0), 0) || 0).toLocaleString('pt-BR')}`, color: '#22c55e' },
             ].map(({ icon: Icon, label, value, color }) => (
               <div key={label} className="text-center p-3 rounded-lg" style={{ backgroundColor: '#0f172a' }}>
@@ -173,10 +173,10 @@ export default function EquipmentDetailPage() {
       </div>
 
 
-      {/* Hodometro */}
+      {/* Hodômetro */}
       {(equipment as any).odometer !== undefined && (
         <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-          <h2 className="text-sm font-semibold text-white mb-4">Hodometro</h2>
+          <h2 className="text-sm font-semibold text-white mb-4">Hodômetro</h2>
           <div className="space-y-3">
             <div className="flex justify-between text-sm">
               <span style={{ color: 'var(--muted)' }}>Km atual</span>
@@ -195,7 +195,7 @@ export default function EquipmentDetailPage() {
             </div>
             {Number((equipment as any).odometer) >= Number((equipment as any).odometerAlert) * 0.9 && (
               <p className="text-xs" style={{ color: '#f59e0b' }}>
-                ⚠ Revisao preventiva necessaria em breve
+                ⚠ Revisão preventiva necessaria em breve
               </p>
             )}
           </div>
@@ -216,7 +216,7 @@ export default function EquipmentDetailPage() {
           <div className="flex flex-col items-center gap-3">
             <img src={equipment.qrCode} alt="QR Code" className="w-48 h-48 rounded-lg" />
             <p className="text-xs" style={{ color: 'var(--muted)' }}>
-              Aponte a camera para acessar a pagina publica do veiculo
+              Aponte a camera para acessar a pagina publica do veículo
             </p>
             <a href={`/equipment/public/${equipment.id}`} target="_blank"
               className="text-xs" style={{ color: 'var(--primary)' }}>
@@ -233,7 +233,7 @@ export default function EquipmentDetailPage() {
 
       {/* Rental history */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-        <h2 className="text-sm font-semibold text-white mb-4">Historico de Locacoes</h2>
+        <h2 className="text-sm font-semibold text-white mb-4">Histórico de Locações</h2>
         {!equipment.rentals?.length ? (
           <p className="text-sm" style={{ color: 'var(--muted)' }}>Nenhuma locacao registrada</p>
         ) : (
@@ -249,7 +249,7 @@ export default function EquipmentDetailPage() {
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-medium" style={{ color: rental.checkinDate ? '#22c55e' : '#f59e0b' }}>
-                    {rental.checkinDate ? 'Concluida' : 'Em andamento'}
+                    {rental.checkinDate ? 'Concluída' : 'Em andamento'}
                   </div>
                   {rental.totalAmount && (
                     <div className="text-xs" style={{ color: 'var(--muted)' }}>
@@ -265,7 +265,7 @@ export default function EquipmentDetailPage() {
 
       {/* Maintenance history */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-        <h2 className="text-sm font-semibold text-white mb-4">Historico de Manutencoes</h2>
+        <h2 className="text-sm font-semibold text-white mb-4">Histórico de Manutenções</h2>
         {!equipment.maintenances?.length ? (
           <p className="text-sm" style={{ color: 'var(--muted)' }}>Nenhuma manutencao registrada</p>
         ) : (
@@ -281,7 +281,7 @@ export default function EquipmentDetailPage() {
                 </div>
                 <span className="text-xs px-2 py-1 rounded-full"
                   style={{ backgroundColor: m.releaseDate ? '#052e16' : '#451a03', color: m.releaseDate ? '#22c55e' : '#f59e0b' }}>
-                  {m.releaseDate ? 'Concluida' : 'Em andamento'}
+                  {m.releaseDate ? 'Concluída' : 'Em andamento'}
                 </span>
               </div>
             ))}

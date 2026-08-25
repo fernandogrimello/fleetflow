@@ -33,13 +33,13 @@ export default function NewEquipmentPage() {
       })
       router.push('/dashboard')
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Erro ao cadastrar equipamento')
+      setError(err.response?.data?.error || 'Erro ao cadastrar veículo')
     } finally {
       setLoading(false)
     }
   }
 
-  const categories = ['Carro de Passeio', 'SUV', 'Pickup', 'Van', 'Caminhao', 'Onibus', 'Moto', 'Equipamento Especial']
+  const categories = ['Carro de Passeio', 'SUV', 'Pickup', 'Van', 'Caminhao', 'Onibus', 'Moto', 'Veículo Especial']
 
   return (
     <div className="max-w-2xl space-y-6">
@@ -48,8 +48,8 @@ export default function NewEquipmentPage() {
           <ArrowLeft size={20} className="text-white" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Novo Equipamento</h1>
-          <p style={{ color: 'var(--muted)' }}>Cadastrar equipamento na frota</p>
+          <h1 className="text-2xl font-bold text-white">Novo Veículo</h1>
+          <p style={{ color: 'var(--muted)' }}>Cadastrar veículo na frota</p>
         </div>
       </div>
 
@@ -58,12 +58,12 @@ export default function NewEquipmentPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            { name: 'name', label: 'Nome', placeholder: 'Ex: Escavadeira Hidraulica' },
-            { name: 'brand', label: 'Marca', placeholder: 'Ex: Caterpillar' },
-            { name: 'model', label: 'Modelo', placeholder: 'Ex: CAT 320' },
-            { name: 'serialNumber', label: 'Numero de Serie', placeholder: 'Ex: CAT-320-2022-001' },
-            { name: 'dailyRate', label: 'Diaria (R$)', placeholder: 'Ex: 850' },
-            { name: 'purchasePrice', label: 'Valor de Aquisicao (R$)', placeholder: 'Ex: 450000' },
+            { name: 'name', label: 'Nome', placeholder: 'Ex: Toyota Hilux' },
+            { name: 'brand', label: 'Marca', placeholder: 'Ex: Toyota' },
+            { name: 'model', label: 'Modelo', placeholder: 'Ex: Hilux CD SRX 4x4' },
+            { name: 'serialNumber', label: 'Número de Serie', placeholder: 'Ex: TOY-HIL-2023-001' },
+            { name: 'dailyRate', label: 'Diária (R$)', placeholder: 'Ex: 850' },
+            { name: 'purchasePrice', label: 'Valor de Aquisição (R$)', placeholder: 'Ex: 450000' },
           ].map(field => (
             <div key={field.name}>
               <label className="block text-sm font-medium text-slate-300 mb-1">{field.label}</label>
@@ -125,7 +125,7 @@ export default function NewEquipmentPage() {
           <button type="submit" disabled={loading}
             className="flex-1 py-2.5 rounded-lg text-sm font-medium text-white transition-colors disabled:opacity-50"
             style={{ backgroundColor: 'var(--primary)' }}>
-            {loading ? 'Salvando...' : 'Cadastrar Equipamento'}
+            {loading ? 'Salvando...' : 'Cadastrar Veículo'}
           </button>
         </div>
       </form>

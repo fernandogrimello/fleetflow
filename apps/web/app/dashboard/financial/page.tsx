@@ -27,11 +27,11 @@ export default function FinancialPage() {
   }, [selected])
 
   const cards = roi ? [
-    { label: 'Valor de Aquisicao', value: roi.purchasePrice, color: 'var(--muted)', icon: DollarSign },
+    { label: 'Valor de Aquisição', value: roi.purchasePrice, color: 'var(--muted)', icon: DollarSign },
     { label: 'Total Arrecadado', value: roi.totalRevenue, color: '#22c55e', icon: TrendingUp },
-    { label: 'Custo Manutencoes', value: roi.totalMaintenanceCost, color: '#ef4444', icon: TrendingDown },
+    { label: 'Custo Manutenções', value: roi.totalMaintenanceCost, color: '#ef4444', icon: TrendingDown },
     { label: 'Custo Seguros', value: roi.totalInsuranceCost, color: '#f59e0b', icon: DollarSign },
-    { label: 'Lucro Liquido', value: roi.netProfit, color: roi.netProfit >= 0 ? '#22c55e' : '#ef4444', icon: DollarSign },
+    { label: 'Lucro Líquido', value: roi.netProfit, color: roi.netProfit >= 0 ? '#22c55e' : '#ef4444', icon: DollarSign },
     { label: 'Receita Perdida', value: roi.lostRevenue, color: '#f59e0b', icon: Clock },
   ] : []
 
@@ -39,7 +39,7 @@ export default function FinancialPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-white">Financeiro</h1>
-        <p style={{ color: 'var(--muted)' }}>Analise de ROI por equipamento</p>
+        <p style={{ color: 'var(--muted)' }}>Análise de ROI por equipamento</p>
       </div>
 
       {/* Equipment selector */}
@@ -71,10 +71,10 @@ export default function FinancialPage() {
             </div>
             <div className="text-sm text-white">ROI — Retorno sobre Investimento</div>
             <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-              {roi.roiPositive ? 'Equipamento ja se pagou' : 'Equipamento ainda nao se pagou'}
+              {roi.roiPositive ? 'Equipamento ja se pagou' : 'Equipamento ainda não se pagou'}
             </div>
             <div className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-              {roi.totalRentals} locacoes • {roi.downtimeDays} dias em manutencao
+              {roi.totalRentals} locações • {roi.downtimeDays} dias em manutenção
             </div>
           </div>
 

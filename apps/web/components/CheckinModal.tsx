@@ -58,9 +58,9 @@ export default function CheckinModal({ onClose, onSuccess }: Props) {
     <Modal title="Check-in — Retirada pelo Cliente" onClose={onClose} size="md">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className={labelClass}>Veiculo Disponivel</label>
+          <label className={labelClass}>Veículo Disponível</label>
           <select name="equipmentId" value={form.equipmentId} onChange={handleChange} required className={inputClass} style={inputStyle}>
-            <option value="">Selecione um veiculo...</option>
+            <option value="">Selecione um veículo...</option>
             {equipments.map(e => (
               <option key={e.id} value={e.id}>
                 {e.name} — {e.brand} {e.model} (R$ {Number(e.dailyRate).toLocaleString('pt-BR')}/dia)
@@ -68,7 +68,7 @@ export default function CheckinModal({ onClose, onSuccess }: Props) {
             ))}
           </select>
           {equipments.length === 0 && (
-            <p className="text-xs mt-1" style={{ color: '#f59e0b' }}>Nenhum veiculo disponivel no momento</p>
+            <p className="text-xs mt-1" style={{ color: '#f59e0b' }}>Nenhum veículo disponivel no momento</p>
           )}
         </div>
 
@@ -88,9 +88,9 @@ export default function CheckinModal({ onClose, onSuccess }: Props) {
         </div>
 
         <div>
-          <label className={labelClass}>Observacoes (opcional)</label>
+          <label className={labelClass}>Observações (opcional)</label>
           <textarea name="checkoutNotes" value={form.checkoutNotes} onChange={handleChange} rows={3}
-            placeholder="Estado do veiculo, condicoes especiais..."
+            placeholder="Estado do veículo, condições especiais..."
             className={inputClass} style={inputStyle} />
         </div>
 

@@ -160,7 +160,7 @@ export default function ClientsPage() {
                 <ChevronLeft size={20} />
               </button>
               <span className="text-sm text-white">
-                Pagina {page} de {totalPages}
+                Página {page} de {totalPages}
               </span>
               <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
                 className="p-2 rounded-lg disabled:opacity-30 hover:bg-slate-700 transition-colors"
@@ -184,7 +184,7 @@ export default function ClientsPage() {
             </div>
             <div className="space-y-4">
               {[
-                { label: 'Nome *', key: 'name', placeholder: 'Nome completo ou razao social' },
+                { label: 'Nome *', key: 'name', placeholder: 'Nome completo ou razão social' },
                 { label: 'Email *', key: 'email', placeholder: 'email@empresa.com.br' },
                 { label: 'Telefone', key: 'phone', placeholder: '(61) 99999-0000', mask: true },
                 { label: 'CPF / CNPJ', key: 'document', placeholder: '000.000.000-00' },

@@ -32,7 +32,7 @@ export default function MaintenancePage() {
     setSubmitting(true)
     try {
       await api.put(`/maintenance/${maintenanceId}/release`, {
-        releaseNotes: releaseForm.releaseNotes || 'Liberado apos manutencao',
+        releaseNotes: releaseForm.releaseNotes || 'Liberado após manutencao',
       })
       setShowRelease(null)
       setReleaseForm({ releaseNotes: '', technicianName: '' })
@@ -57,12 +57,12 @@ export default function MaintenancePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Manutencao</h1>
-        <p style={{ color: 'var(--muted)' }}>Ordens de servico por veiculo</p>
+        <h1 className="text-2xl font-bold text-white">Manutenção</h1>
+        <p style={{ color: 'var(--muted)' }}>Ordens de serviço por veículo</p>
       </div>
 
       <div>
-        <label className="text-sm font-medium text-white mb-2 block">Veiculo</label>
+        <label className="text-sm font-medium text-white mb-2 block">Veículo</label>
         <select value={selected} onChange={e => setSelected(e.target.value)}
           className="px-4 py-2.5 rounded-lg border text-white outline-none"
           style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
@@ -101,7 +101,7 @@ export default function MaintenancePage() {
                         <p className="text-white font-medium">{m.description}</p>
                         {m.technicianName && (
                           <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>
-                            Tecnico: {m.technicianName}
+                            Técnico: {m.technicianName}
                           </p>
                         )}
                         {m.parts?.length > 0 && (
@@ -134,11 +134,11 @@ export default function MaintenancePage() {
             </div>
           )}
 
-          {/* Concluidas */}
+          {/* Concluídas */}
           {done.length > 0 && (
             <div>
               <h2 className="text-sm font-semibold mb-3 flex items-center gap-2" style={{ color: '#22c55e' }}>
-                <CheckCircle size={16} /> Concluidas ({done.length})
+                <CheckCircle size={16} /> Concluídas ({done.length})
               </h2>
               <div className="space-y-3">
                 {done.map(m => (
@@ -172,7 +172,7 @@ export default function MaintenancePage() {
           {maintenances.length === 0 && (
             <div className="text-center py-16" style={{ color: 'var(--muted)' }}>
               <Wrench size={40} className="mx-auto mb-3 opacity-30" />
-              <p>Nenhuma OS registrada para este veiculo</p>
+              <p>Nenhuma OS registrada para este veículo</p>
             </div>
           )}
         </div>
@@ -190,21 +190,21 @@ export default function MaintenancePage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-white mb-2 block">Tecnico responsavel</label>
+                <label className="text-sm font-medium text-white mb-2 block">Técnico responsável</label>
                 <input
                   value={releaseForm.technicianName ?? ''}
                   onChange={e => setReleaseForm(prev => ({ releaseNotes: prev.releaseNotes, technicianName: e.target.value }))}
-                  placeholder="Nome do tecnico que realizou o servico"
+                  placeholder="Nome do tecnico que realizou o serviço"
                   className="w-full px-4 py-3 rounded-xl text-white outline-none"
                   style={{ backgroundColor: '#0f172a', border: '1px solid var(--card-border)' }}
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-white mb-2 block">Observacoes de liberacao</label>
+                <label className="text-sm font-medium text-white mb-2 block">Observações de liberacao</label>
                 <textarea
                   value={releaseForm.releaseNotes}
                   onChange={e => setReleaseForm({ releaseNotes: e.target.value })}
-                  placeholder="Descreva o servico realizado e condicoes de liberacao..."
+                  placeholder="Descreva o serviço realizado e condicoes de liberacao..."
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl text-white outline-none resize-none"
                   style={{ backgroundColor: '#0f172a', border: '1px solid var(--card-border)' }}
@@ -213,7 +213,7 @@ export default function MaintenancePage() {
               <button onClick={() => handleRelease(showRelease)} disabled={submitting}
                 className="w-full py-3 rounded-xl font-semibold text-white disabled:opacity-50"
                 style={{ backgroundColor: '#22c55e' }}>
-                {submitting ? 'Liberando...' : 'Confirmar Liberacao'}
+                {submitting ? 'Liberando...' : 'Confirmar Liberação'}
               </button>
             </div>
           </div>

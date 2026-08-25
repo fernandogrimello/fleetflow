@@ -73,14 +73,14 @@ export default function FleetMap({ fleet, selected, onSelect }: Props) {
             <div style={{ minWidth: 160 }}>
               <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.name}</div>
               <div style={{ fontSize: 12, color: statusColors[v.status] }}>
-                {v.status === 'AVAILABLE' ? 'Disponivel' : v.status === 'RENTED' ? 'Alugado' : 'Manutencao'}
+                {v.status === 'AVAILABLE' ? 'Disponível' : v.status === 'RENTED' ? 'Alugado' : 'Manutenção'}
               </div>
               <div style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>
-                Hodometro: {v.odometer.toLocaleString('pt-BR')} km
+                Hodômetro: {v.odometer.toLocaleString('pt-BR')} km
               </div>
               {v.odometerWarning && (
                 <div style={{ fontSize: 12, color: '#f59e0b', marginTop: 2 }}>
-                  ⚠ Revisao necessaria
+                  ⚠ Revisão necessária
                 </div>
               )}
             </div>

@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation'
 import { CheckCircle, Wrench, AlertTriangle, Phone, Car, Calendar, Hash } from 'lucide-react'
 
 const statusConfig = {
-  AVAILABLE:      { label: 'Disponivel para uso', color: '#22c55e', bg: '#052e16', icon: CheckCircle },
+  AVAILABLE:      { label: 'Disponível para uso', color: '#22c55e', bg: '#052e16', icon: CheckCircle },
   RENTED:         { label: 'Em uso pelo cliente', color: '#3b82f6', bg: '#172554', icon: Car },
   MAINTENANCE:    { label: 'Em manutencao', color: '#f59e0b', bg: '#451a03', icon: Wrench },
   DECOMMISSIONED: { label: 'Fora de operacao', color: '#64748b', bg: '#0f172a', icon: AlertTriangle },
@@ -40,7 +40,7 @@ export default function PublicEquipmentPage() {
     <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0f172a' }}>
       <div className="text-center">
         <AlertTriangle size={48} className="mx-auto mb-4" style={{ color: '#ef4444' }} />
-        <div className="text-white text-lg">Veiculo nao encontrado</div>
+        <div className="text-white text-lg">Veículo nao encontrado</div>
       </div>
     </div>
   )
@@ -88,7 +88,7 @@ export default function PublicEquipmentPage() {
               { icon: Car, label: 'Categoria', value: equipment.category },
               { icon: Hash, label: 'Modelo', value: `${equipment.brand} ${equipment.model}` },
               { icon: Calendar, label: 'Ano', value: equipment.year },
-              { icon: Hash, label: 'Diaria', value: `R$ ${Number(equipment.dailyRate).toLocaleString('pt-BR')}` },
+              { icon: Hash, label: 'Diária', value: `R$ ${Number(equipment.dailyRate).toLocaleString('pt-BR')}` },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="flex items-center gap-3">
                 <Icon size={16} style={{ color: '#64748b' }} />
@@ -134,7 +134,7 @@ export default function PublicEquipmentPage() {
                 style={{ backgroundColor: '#0f172a', border: '1px solid #334155' }} />
               <button
                 onClick={() => {
-                  alert(`Chamado registrado!\nTipo: ${chamado.tipo}\nVeiculo: ${equipment.name}\nAguarde contato da equipe.`)
+                  alert(`Chamado registrado!\nTipo: ${chamado.tipo}\nVeículo: ${equipment.name}\nAguarde contato da equipe.`)
                   setChamadoAberto(false)
                   setChamado({ tipo: 'avaria', descricao: '' })
                 }}

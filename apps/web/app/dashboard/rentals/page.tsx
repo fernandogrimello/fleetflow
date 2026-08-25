@@ -13,7 +13,7 @@ export default function RentalsPage() {
   useEffect(() => {
     api.get('/rentals')
       .then(({ data }) => {
-        setRentals(data.items)
+        setRentals(data.items || data)
         setTotal(data.total)
       })
       .finally(() => setLoading(false))
@@ -23,7 +23,7 @@ export default function RentalsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Locacoes</h1>
+          <h1 className="text-2xl font-bold text-white">Locações</h1>
           <p style={{ color: 'var(--muted)' }}>{total} locacoes registradas</p>
         </div>
       </div>
@@ -58,7 +58,7 @@ export default function RentalsPage() {
                       </span>
                       <span className="text-xs px-2 py-0.5 rounded-full"
                         style={{ backgroundColor: active ? '#172554' : '#052e16', color: active ? '#3b82f6' : '#22c55e' }}>
-                        {active ? 'Em andamento' : 'Concluida'}
+                        {active ? 'Em andamento' : 'Concluída'}
                       </span>
                     </div>
                     <div className="text-xs space-y-0.5" style={{ color: 'var(--muted)' }}>

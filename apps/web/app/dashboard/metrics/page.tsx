@@ -45,8 +45,8 @@ export default function MetricsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-white">Metricas de Decisao</h1>
-        <p style={{ color: 'var(--muted)' }}>Analise de desempenho da frota</p>
+        <h1 className="text-2xl font-bold text-white">Métricas de Decisão</h1>
+        <p style={{ color: 'var(--muted)' }}>Análise de desempenho da frota</p>
       </div>
 
       {/* IA Analysis */}
@@ -54,7 +54,7 @@ export default function MetricsPage() {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <Brain size={18} style={{ color: '#a78bfa' }} />
-            <h2 className="text-sm font-semibold text-white">Analise da Frota por IA (Gemini)</h2>
+            <h2 className="text-sm font-semibold text-white">Análise da Frota por IA (Gemini)</h2>
           </div>
           <button onClick={loadAiAnalysis} disabled={loadingAi}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white disabled:opacity-50"
@@ -66,7 +66,7 @@ export default function MetricsPage() {
 
         {!aiAnalysis && !loadingAi && (
           <div className="text-sm text-center py-6" style={{ color: 'var(--muted)' }}>
-            Clique em "Analisar com IA" para obter recomendacoes estrategicas da sua frota
+            Clique em "Analisar com IA" para obter recomendações estratégicas da sua frota
           </div>
         )}
 
@@ -114,7 +114,7 @@ export default function MetricsPage() {
 
             {aiAnalysis.recomendacoesEstrategicas?.length > 0 && (
               <div>
-                <div className="text-xs font-semibold mb-2" style={{ color: '#a78bfa' }}>Recomendacoes Estrategicas</div>
+                <div className="text-xs font-semibold mb-2" style={{ color: '#a78bfa' }}>Recomendações Estrategicas</div>
                 <ul className="space-y-2">
                   {aiAnalysis.recomendacoesEstrategicas.map((rec: string, i: number) => (
                     <li key={i} className="flex gap-2 text-xs">
@@ -186,7 +186,7 @@ export default function MetricsPage() {
 
       {/* Occupancy */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
-        <h2 className="text-sm font-semibold text-white mb-4">Taxa de Ocupacao</h2>
+        <h2 className="text-sm font-semibold text-white mb-4">Taxa de Ocupação</h2>
         <div className="space-y-4">
           {occupancy.map((e: any) => (
             <div key={e.id}>
