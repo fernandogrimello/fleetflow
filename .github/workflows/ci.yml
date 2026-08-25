@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: fleetflow
+          POSTGRES_PASSWORD: fleetflow123
+          POSTGRES_DB: fleetflow_db
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/api/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/api
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://fleetflow:fleetflow123@localhost:5434/fleetflow_db
+
+      - name: Run migrations
+        run: npx prisma migrate deploy
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://fleetflow:fleetflow123@localhost:5434/fleetflow_db
+
+      - name: Seed database
+        run: docker exec -i $(docker ps -q --filter "ancestor=postgres:16-alpine") psql -U fleetflow -d fleetflow_db < apps/api/prisma/seed.sql || true
+        env:
+          DATABASE_URL: postgresql://fleetflow:fleetflow123@localhost:5434/fleetflow_db
+
+      - name: Run tests
+        run: npm test
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://fleetflow:fleetflow123@localhost:5434/fleetflow_db
+          JWT_SECRET: ci-secret-key-for-testing
+          GEMINI_API_KEY: fake-key-for-testing
+          QR_CODE_BASE_URL: http://localhost:3000/equipment/public
+          UPLOAD_DIR: ./uploads
+
+      - name: Run coverage
+        run: npm run test:coverage
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://fleetflow:fleetflow123@localhost:5434/fleetflow_db
+          JWT_SECRET: ci-secret-key-for-testing
+          GEMINI_API_KEY: fake-key-for-testing
+          QR_CODE_BASE_URL: http://localhost:3000/equipment/public
+          UPLOAD_DIR: ./uploads
