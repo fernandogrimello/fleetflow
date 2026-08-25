@@ -172,6 +172,35 @@ export default function EquipmentDetailPage() {
         </div>
       </div>
 
+
+      {/* Hodometro */}
+      {(equipment as any).odometer !== undefined && (
+        <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+          <h2 className="text-sm font-semibold text-white mb-4">Hodometro</h2>
+          <div className="space-y-3">
+            <div className="flex justify-between text-sm">
+              <span style={{ color: 'var(--muted)' }}>Km atual</span>
+              <span className="text-white font-semibold">{Number((equipment as any).odometer).toLocaleString('pt-BR')} km</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span style={{ color: 'var(--muted)' }}>Alerta de revisao</span>
+              <span style={{ color: '#f59e0b' }}>{Number((equipment as any).odometerAlert).toLocaleString('pt-BR')} km</span>
+            </div>
+            <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: '#0f172a' }}>
+              <div className="h-3 rounded-full transition-all" style={{
+                width: `${Math.min((Number((equipment as any).odometer) / Number((equipment as any).odometerAlert)) * 100, 100)}%`,
+                backgroundColor: Number((equipment as any).odometer) >= Number((equipment as any).odometerAlert) ? '#ef4444' :
+                                  Number((equipment as any).odometer) >= Number((equipment as any).odometerAlert) * 0.9 ? '#f59e0b' : '#22c55e',
+              }} />
+            </div>
+            {Number((equipment as any).odometer) >= Number((equipment as any).odometerAlert) * 0.9 && (
+              <p className="text-xs" style={{ color: '#f59e0b' }}>
+                ⚠ Revisao preventiva necessaria em breve
+              </p>
+            )}
+          </div>
+        </div>
+      )}
       {/* QR Code */}
       <div className="p-5 rounded-xl border" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
         <div className="flex items-center justify-between mb-4">
