@@ -6,15 +6,20 @@ let adminToken: string
 const equipmentId = 'e1000001-0000-0000-0000-000000000001'
 
 beforeAll(async () => {
-  const login = await request(app)
-    .post('/auth/login')
-    .send({ email: 'luizfernandogrimello@hotmail.com', password: '123456' })
-  adminToken = login.body.token
+  await prisma.user.deleteMany({ where: { email: 'telemetry-admin@test.com' } })
+  
+  const register = await request(app)
+    .post('/auth/register')
+    .send({ name: 'Telemetry Admin', email: 'telemetry-admin@test.com', password: '123456', role: 'ADMIN' })
+  adminToken = register.body.token
 })
 
 afterAll(async () => {
+  await prisma.user.deleteMany({ where: { email: 'telemetry-admin@test.com' } })
   await prisma.$disconnect()
 })
+
+
 
 describe('Telemetria', () => {
   describe('POST /telemetry/:equipmentId/location', () => {
