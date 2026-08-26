@@ -20,7 +20,7 @@ export default function PublicEquipmentPage() {
   const [chamado, setChamado] = useState({ tipo: 'avaria', descricao: '' })
 
   useEffect(() => {
-    fetch(`http://localhost:3001/equipment/public/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/equipment/public/${id}`)
       .then(r => r.json())
       .then(data => {
         if (data.error) setError(true)
