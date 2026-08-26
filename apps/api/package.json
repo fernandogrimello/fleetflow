@@ -1,7 +1,7 @@
 {
   "name": "fleetflow-api",
   "version": "1.0.0",
-  "description": "FleetFlow API \u2014 sistema de gestao de frota de equipamentos",
+  "description": "FleetFlow API — sistema de gestao de frota de equipamentos",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
@@ -31,16 +31,16 @@
     "qrcode": "^1.5.4",
     "ts-node": "^10.9.2",
     "uuid": "^14.0.2",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/multer": "^2.2.0",
+    "@types/cors": "^2.8.19",
+    "@types/node": "^26.3.0"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/multer": "^2.2.0",
-    "@types/node": "^26.3.0",
     "@types/qrcode": "^1.5.6",
     "@types/supertest": "^7.2.1",
     "@types/uuid": "^10.0.0",
