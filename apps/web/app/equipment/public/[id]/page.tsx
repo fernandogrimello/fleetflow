@@ -105,7 +105,7 @@ export default function PublicEquipmentPage() {
         {!chamadoAberto ? (
           <button
             onClick={() => setChamadoAberto(true)}
-            className="w-full py-4 rounded-2xl font-semibold text-white flex items-center justify-center gap-3"
+            className="w-full py-4 rounded-2xl font-semibold text-white flex items-center justify-center gap-3 text-center"
             style={{ backgroundColor: '#ef4444' }}>
             <AlertTriangle size={20} />
             Reportar Avaria ou Solicitar Suporte
