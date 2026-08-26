@@ -13,7 +13,7 @@ interface CreateEquipmentInput {
   purchasePrice: number
 }
 
-export async function list(params?: { search?: string; status?: string; page?: number; limit?: number }) {
+export async function list(params?: { search?: string; status?: string; category?: string; page?: number; limit?: number }) {
   const where: any = {}
   if (params?.search) {
     where.OR = [
@@ -24,6 +24,7 @@ export async function list(params?: { search?: string; status?: string; page?: n
     ]
   }
   if (params?.status) where.status = params.status
+  if (params?.category) where.category = params.category
 
   const [items, total] = await Promise.all([
     prisma.equipment.findMany({
