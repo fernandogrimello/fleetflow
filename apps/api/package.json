@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "echo Build skipped",
-    "start": "node -r ts-node/register/transpile-only src/server.ts",
+    "start": "node -r ts-node/register src/server.ts",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prisma:generate": "prisma generate",
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.2.0",
     "qrcode": "^1.5.4",
+    "ts-node": "^10.9.2",
     "uuid": "^14.0.2",
     "zod": "^4.4.3"
   },
