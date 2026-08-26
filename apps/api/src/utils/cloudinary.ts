@@ -17,7 +17,7 @@ export async function uploadImage(buffer: Buffer, filename: string): Promise<str
         transformation: [{ width: 800, height: 600, crop: 'fill', quality: 'auto' }],
       },
       (error, result) => {
-        if (error) reject(error)
+        if (error) { console.error('Cloudinary error:', error); reject(error) }
         else resolve(result!.secure_url)
       }
     ).end(buffer)
