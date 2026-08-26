@@ -82,7 +82,7 @@ export async function addPhotos(req: AuthRequest, res: Response): Promise<void> 
       return
     }
     const filenames = files.map(f => f.filename)
-    const equipment = await equipmentService.addPhotos(req.params.id as string, filenames)
+    const equipment = await equipmentService.addPhotos(req.params.id as string, files)
     res.json(equipment)
   } catch (error) {
     handleError(error, res)
