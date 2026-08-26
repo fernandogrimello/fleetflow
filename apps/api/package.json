@@ -1,12 +1,12 @@
 {
   "name": "fleetflow-api",
   "version": "1.0.0",
-  "description": "FleetFlow API — sistema de gestao de frota de equipamentos",
+  "description": "FleetFlow API \u2014 sistema de gestao de frota de equipamentos",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "echo Build skipped",
-    "start": "node -r ts-node/register src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prisma:generate": "prisma generate",
