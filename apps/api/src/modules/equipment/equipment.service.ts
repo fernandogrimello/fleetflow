@@ -101,8 +101,7 @@ export async function removePhoto(id: string, photoUrl: string) {
 }
 
 export async function generateAndSaveQRCode(id: string) {
-  const baseUrl = process.env.QR_CODE_BASE_URL || 'http://localhost:3000/equipment/public'
-  const qrCode = await generateQRCode(`${baseUrl}/${id}`)
+  const qrCode = await generateQRCode(id)
   return prisma.equipment.update({
     where: { id },
     data: { qrCode },
