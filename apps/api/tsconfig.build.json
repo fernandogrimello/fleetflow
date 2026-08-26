@@ -6,10 +6,5 @@
     "coverage",
     "src/__tests__",
     "**/*.test.ts"
-  ],
-  "compilerOptions": {
-    "types": [
-      "node"
-    ]
-  }
+  ]
 }
