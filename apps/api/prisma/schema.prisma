@@ -67,7 +67,7 @@ model Equipment {
   year          Int
   serialNumber  String          @unique
   photos        String[]
-  qrCode        String?         @unique
+  qrCode        String?
   status        EquipmentStatus @default(AVAILABLE)
   dailyRate     Decimal         @db.Decimal(10, 2)
   purchasePrice Decimal         @db.Decimal(10, 2)
