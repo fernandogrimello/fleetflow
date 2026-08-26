@@ -203,7 +203,7 @@ export default function MaintenancePage() {
                 <label className="text-sm font-medium text-white mb-2 block">Observações de liberacao</label>
                 <textarea
                   value={releaseForm.releaseNotes}
-                  onChange={e => setReleaseForm({ releaseNotes: e.target.value })}
+                  onChange={e => setReleaseForm(prev => ({ ...prev, releaseNotes: e.target.value }))}
                   placeholder="Descreva o serviço realizado e condicoes de liberacao..."
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl text-white outline-none resize-none"
