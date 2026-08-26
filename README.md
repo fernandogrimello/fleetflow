@@ -89,6 +89,18 @@ e formulário de abertura de chamado direto do campo.*
 
 ---
 
+## Demo Online
+
+🚀 **Sistema em produção:** https://fleetflow-web-sma1.onrender.com
+
+> ⚠️ O servidor gratuito pode demorar até 50 segundos para acordar após inatividade.
+
+**Credenciais de acesso:**
+- Email: `admin@fleetflow.com.br`
+- Senha: `FleetFlow@2026`
+
+---
+
 ## Como rodar localmente
 
 ### Pré-requisitos
