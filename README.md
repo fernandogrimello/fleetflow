@@ -16,6 +16,12 @@
 
 ---
 
+## 📱 Acesso Mobile
+
+O sistema é responsivo e pode ser acessado pelo smartphone. Para uma experiência completa recomendamos o uso em **desktop** — telas como o mapa da frota, métricas e financeiro foram projetadas para telas maiores.
+
+---
+
 ## ⚠️ Aviso Importante
 
 Este é um **projeto de portfólio com fins exclusivamente demonstrativos**. Foi desenvolvido para evidenciar conhecimentos técnicos em arquitetura full-stack, boas práticas de desenvolvimento, testes automatizados e deploy em nuvem.
