@@ -35,7 +35,7 @@ export default function CheckoutPage() {
     setLoading(true)
     setError('')
     try {
-      await api.post(\`/rentals/\${form.rentalId}/checkin\`, {
+      await api.post('/rentals/' + form.rentalId + '/checkin', {
         checkinDate: new Date(form.checkinDate).toISOString(),
         condition: form.condition,
         checkinNotes: form.checkinNotes || undefined,

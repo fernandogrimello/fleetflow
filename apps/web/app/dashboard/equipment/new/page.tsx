@@ -39,91 +39,82 @@ export default function NewEquipmentPage() {
     }
   }
 
-  const categories = ['Carro de Passeio', 'SUV', 'Pickup', 'Van', 'Caminhao', 'Onibus', 'Moto', 'Veículo Especial']
+  const categories = ['Carro de Passeio', 'SUV', 'Pickup', 'Van', 'Caminhão', 'Ônibus', 'Moto', 'Veículo Especial']
+  const inputClass = "w-full px-4 py-3 rounded-xl border text-white outline-none focus:border-blue-500 transition-colors"
+  const inputStyle = { backgroundColor: '#0f172a', borderColor: 'var(--card-border)' }
+  const labelClass = "block text-sm font-medium text-slate-300 mb-2"
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <div className="flex items-center gap-4">
-        <Link href="/dashboard" className="p-2 rounded-lg hover:bg-slate-700 transition-colors">
-          <ArrowLeft size={20} className="text-white" />
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
+      <div className="sticky top-0 z-10 flex items-center gap-3 px-4 py-4 border-b" style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+        <Link href="/dashboard" className="text-white">
+          <ArrowLeft size={24} />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-white">Novo Veículo</h1>
-          <p style={{ color: 'var(--muted)' }}>Cadastrar veículo na frota</p>
+          <h1 className="text-lg font-bold text-white">Novo Veículo</h1>
+          <p className="text-xs" style={{ color: 'var(--muted)' }}>Cadastrar veículo na frota</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 rounded-xl border space-y-4"
-        style={{ backgroundColor: 'var(--card)', borderColor: 'var(--card-border)' }}>
+      <form onSubmit={handleSubmit} className="p-4 space-y-4 max-w-lg mx-auto">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            { name: 'name', label: 'Nome', placeholder: 'Ex: Toyota Hilux' },
-            { name: 'brand', label: 'Marca', placeholder: 'Ex: Toyota' },
-            { name: 'model', label: 'Modelo', placeholder: 'Ex: Hilux CD SRX 4x4' },
-            { name: 'serialNumber', label: 'Número de Serie', placeholder: 'Ex: TOY-HIL-2023-001' },
-            { name: 'dailyRate', label: 'Diária (R$)', placeholder: 'Ex: 850' },
-            { name: 'purchasePrice', label: 'Valor de Aquisição (R$)', placeholder: 'Ex: 450000' },
-          ].map(field => (
-            <div key={field.name}>
-              <label className="block text-sm font-medium text-slate-300 mb-1">{field.label}</label>
-              <input
-                name={field.name}
-                value={(form as any)[field.name]}
-                onChange={handleChange}
-                placeholder={field.placeholder}
-                required
-                className="w-full px-4 py-2.5 rounded-lg border text-white outline-none focus:border-blue-500 transition-colors"
-                style={{ backgroundColor: '#0f172a', borderColor: 'var(--card-border)' }}
-              />
-            </div>
-          ))}
+        <div>
+          <label className={labelClass}>Nome</label>
+          <input name="name" value={form.name} onChange={handleChange} placeholder="Ex: Toyota Hilux" required className={inputClass} style={inputStyle} />
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Categoria</label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2.5 rounded-lg border text-white outline-none focus:border-blue-500 transition-colors"
-              style={{ backgroundColor: '#0f172a', borderColor: 'var(--card-border)' }}
-            >
-              <option value="">Selecione...</option>
-              {categories.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
+        <div>
+          <label className={labelClass}>Marca</label>
+          <input name="brand" value={form.brand} onChange={handleChange} placeholder="Ex: Toyota" required className={inputClass} style={inputStyle} />
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Ano</label>
-            <input
-              name="year"
-              type="number"
-              value={form.year}
-              onChange={handleChange}
-              min={1900}
-              max={new Date().getFullYear() + 1}
-              required
-              className="w-full px-4 py-2.5 rounded-lg border text-white outline-none focus:border-blue-500 transition-colors"
-              style={{ backgroundColor: '#0f172a', borderColor: 'var(--card-border)' }}
-            />
-          </div>
+        <div>
+          <label className={labelClass}>Modelo</label>
+          <input name="model" value={form.model} onChange={handleChange} placeholder="Ex: Hilux CD SRX 4x4" required className={inputClass} style={inputStyle} />
+        </div>
+
+        <div>
+          <label className={labelClass}>Número de Série</label>
+          <input name="serialNumber" value={form.serialNumber} onChange={handleChange} placeholder="Ex: TOY-HIL-2023-001" required className={inputClass} style={inputStyle} />
+        </div>
+
+        <div>
+          <label className={labelClass}>Diária (R$)</label>
+          <input name="dailyRate" value={form.dailyRate} onChange={handleChange} placeholder="Ex: 850" required className={inputClass} style={inputStyle} />
+        </div>
+
+        <div>
+          <label className={labelClass}>Valor de Aquisição (R$)</label>
+          <input name="purchasePrice" value={form.purchasePrice} onChange={handleChange} placeholder="Ex: 450000" required className={inputClass} style={inputStyle} />
+        </div>
+
+        <div>
+          <label className={labelClass}>Categoria</label>
+          <select name="category" value={form.category} onChange={handleChange} required className={inputClass} style={inputStyle}>
+            <option value="">Selecione...</option>
+            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label className={labelClass}>Ano</label>
+          <input name="year" type="number" value={form.year} onChange={handleChange} min={1900} max={new Date().getFullYear() + 1} required className={inputClass} style={inputStyle} />
         </div>
 
         {error && (
-          <div className="px-4 py-3 rounded-lg text-sm" style={{ backgroundColor: '#450a0a', color: 'var(--danger)' }}>
+          <div className="px-4 py-3 rounded-xl text-sm" style={{ backgroundColor: '#450a0a', color: '#ef4444' }}>
             {error}
           </div>
         )}
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-3 pt-2 pb-8">
           <Link href="/dashboard"
-            className="flex-1 py-2.5 rounded-lg text-center text-sm font-medium transition-colors"
+            className="flex-1 py-3 rounded-xl text-center text-sm font-medium transition-colors"
             style={{ backgroundColor: '#1e293b', color: 'var(--muted)' }}>
             Cancelar
           </Link>
           <button type="submit" disabled={loading}
-            className="flex-1 py-2.5 rounded-lg text-sm font-medium text-white transition-colors disabled:opacity-50"
+            className="flex-1 py-3 rounded-xl text-sm font-medium text-white transition-colors disabled:opacity-50"
             style={{ backgroundColor: 'var(--primary)' }}>
             {loading ? 'Salvando...' : 'Cadastrar Veículo'}
           </button>
