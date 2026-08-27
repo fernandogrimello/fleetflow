@@ -6,6 +6,14 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 delete (L.Icon.Default.prototype as any)._getIconUrl
+
+// Suprime erro de LatLng durante animacao inicial
+const originalOnError = window.onerror
+if (typeof window !== 'undefined') {
+  window.addEventListener('error', (e) => {
+    if (e.message?.includes('Invalid LatLng')) e.preventDefault()
+  })
+}
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
@@ -40,7 +48,24 @@ function FlyTo({ selected }: { selected: any }) {
   const map = useMap()
   useEffect(() => {
     if (selected?.lastLocation) {
-      map.flyTo([selected.lastLocation.latitude, selected.lastLocation.longitude], 14, { duration: 1 })
+      const lat = parseFloat(selected.lastLocation.latitude)
+      const lng = parseFloat(selected.lastLocation.longitude)
+      if (!isNaN(lat) && !isNaN(lng)) {
+        const doFly = () => {
+          try {
+            map.flyTo([lat, lng], 14, { duration: 1.2, easeLinearity: 0.25 })
+          } catch(e) {
+            setTimeout(() => {
+              try { map.setView([lat, lng], 14) } catch(e2) {}
+            }, 300)
+          }
+        }
+        if (map.getContainer().getBoundingClientRect().width > 0) {
+          doFly()
+        } else {
+          setTimeout(doFly, 600)
+        }
+      }
     }
   }, [selected, map])
   return null
@@ -65,7 +90,7 @@ export default function FleetMap({ fleet, selected, onSelect }: Props) {
       {fleet.map(v => (
         <Marker
           key={v.id}
-          position={[v.lastLocation.latitude, v.lastLocation.longitude]}
+          position={[parseFloat(v.lastLocation.latitude), parseFloat(v.lastLocation.longitude)]}
           icon={createIcon(v.status, v.odometerWarning)}
           eventHandlers={{ click: () => onSelect(v) }}
         >
