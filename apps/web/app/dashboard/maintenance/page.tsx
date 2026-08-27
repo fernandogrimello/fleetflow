@@ -86,7 +86,7 @@ export default function MaintenancePage() {
                 {pending.map(m => (
                   <div key={m.id} className="p-5 rounded-xl border"
                     style={{ backgroundColor: 'var(--card)', borderColor: '#f59e0b44' }}>
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-xs px-2 py-0.5 rounded-full font-medium"
@@ -122,7 +122,7 @@ export default function MaintenancePage() {
                         )}
                       </div>
                       <button onClick={() => setShowRelease(m.id)}
-                        className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-white shrink-0"
+                        className="flex items-center justify-center gap-2 w-full sm:w-auto px-3 py-2 rounded-lg text-sm font-medium text-white mt-3 sm:mt-0"
                         style={{ backgroundColor: '#22c55e' }}>
                         <CheckCircle size={16} />
                         Liberar OS
