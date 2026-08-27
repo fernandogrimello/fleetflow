@@ -144,16 +144,18 @@ Acesse: http://localhost:3000
 ---
 
 ## Estrutura do Projeto
+
+```
 fleetflow/
 ├── apps/
-│ ├── api/ # Backend Node.js/Express/Prisma
-│ └── web/ # Frontend Next.js
+│   ├── api/           # Backend Node.js/Express/Prisma
+│   └── web/           # Frontend Next.js
 ├── docs/
-│ ├── screenshots/ # Capturas de tela do sistema
-│ └── *.md # Documentação de arquitetura
-├── prisma/ # Schema e migrations
+│   ├── screenshots/   # Capturas de tela do sistema
+│   └── *.md           # Documentacao de arquitetura
+├── prisma/            # Schema e migrations
 └── docker-compose.yml
-
+```
 ---
 
 ## Documentação
