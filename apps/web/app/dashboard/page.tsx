@@ -1,13 +1,11 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { Equipment, EquipmentStatus } from '@/types'
 import { Plus, Search, LogIn, LogOut, Wrench } from 'lucide-react'
-import CheckinModal from '@/components/CheckinModal'
-import CheckoutModal from '@/components/CheckoutModal'
-import MaintenanceModal from '@/components/MaintenanceModal'
 
 const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: string }> = {
   AVAILABLE:      { label: 'Disponível',   color: '#22c55e', bg: '#052e16' },
@@ -19,10 +17,10 @@ const statusConfig: Record<EquipmentStatus, { label: string; color: string; bg: 
 export default function DashboardPage() {
   const [equipment, setEquipment] = useState<Equipment[]>([])
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | ''>('')
   const [total, setTotal] = useState(0)
-  const [modal, setModal] = useState<'checkin' | 'checkout' | 'maintenance' | null>(null)
 
   const fetchEquipment = useCallback(async () => {
     setLoading(true)
@@ -55,19 +53,19 @@ export default function DashboardPage() {
           <p style={{ color: 'var(--muted)' }}>{total} veículos cadastrados</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <button onClick={() => setModal('checkin')}
+          <button onClick={() => router.push('/dashboard/checkin')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#22c55e' }}>
             <LogIn size={16} />
             Check-in (Retirada)
           </button>
-          <button onClick={() => setModal('checkout')}
+          <button onClick={() => router.push('/dashboard/checkout')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#3b82f6' }}>
             <LogOut size={16} />
             Check-out (Devolução)
           </button>
-          <button onClick={() => setModal('maintenance')}
+          <button onClick={() => router.push('/dashboard/nova-manutencao')}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white"
             style={{ backgroundColor: '#f59e0b' }}>
             <Wrench size={16} />
@@ -155,9 +153,6 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {modal === 'checkin' && <CheckinModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
-      {modal === 'checkout' && <CheckoutModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
-      {modal === 'maintenance' && <MaintenanceModal onClose={() => setModal(null)} onSuccess={fetchEquipment} />}
     </div>
   )
 }
