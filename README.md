@@ -32,7 +32,7 @@ O sistema inclui rastreamento GPS simulado com mapa interativo, análise prediti
 
 ---
 
-## 🚀 Demo Online
+## Demo Online
 
 **Acesse o sistema:** [https://fleetflow-web-sma1.onrender.com](https://fleetflow-web-sma1.onrender.com)
 
