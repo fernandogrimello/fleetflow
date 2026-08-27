@@ -33,26 +33,37 @@ automáticos de hodômetro.
 
 ### Painel de Frota
 ![Painel de Frota](docs/screenshots/01-painel-frota.png)
-*Grid visual com fotos reais dos veículos, badges de status em tempo real e ações rápidas
-de check-in, check-out e manutenção.*
 
-### Mapa da Frota (Telemetria GPS)
+### Mapa da Frota
 ![Mapa da Frota](docs/screenshots/02-mapa-frota.png)
-*Mapa interativo com posição de todos os veículos em Brasília/DF, alertas de hodômetro
-e detalhe ao clicar no marker.*
+
+### Manutenção
+![Manutenção](docs/screenshots/03-manutencao.png)
+
+### Financeiro
+![Financeiro](docs/screenshots/04-financeiro.png)
+
+### Métricas com IA
+![Métricas com IA](docs/screenshots/05-metricas-ia.png)
+
+### Seguros
+![Seguros](docs/screenshots/06-seguros.png)
+
+### QR Code Público
+![QR Code Público](docs/screenshots/07-qrcode-publico.png)
 
 ### Métricas e Análise por IA
-![Métricas com IA](docs/screenshots/03-metricas-ia.png)
+
 *Gemini 3.6 Flash analisa os dados da frota e entrega recomendações estratégicas:
 candidatos à baixa, veículos mais rentáveis e ações prioritárias.*
 
 ### Dashboard Financeiro
-![Financeiro](docs/screenshots/04-financeiro.png)
+
 *ROI individual por veículo com receita total, custo de manutenção, custo de seguro,
 lucro líquido e receita perdida por downtime.*
 
 ### Página Pública via QR Code
-![QR Code Público](docs/screenshots/05-qrcode-publico.png)
+
 *Página responsiva acessada via QR Code sem autenticação: ficha técnica, status atual
 e formulário de abertura de chamado direto do campo.*
 
