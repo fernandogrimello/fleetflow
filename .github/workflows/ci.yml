@@ -1,4 +1,5 @@
 name: CI
+# Pipeline de integracao continua — testes automatizados a cada push
 
 on:
   push:
