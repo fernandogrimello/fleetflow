@@ -112,22 +112,26 @@ O sistema inclui rastreamento GPS simulado com mapa interativo, análise prediti
 ## Como Rodar Localmente
 
 ### Pré-requisitos
-- Node.js 20+
-- Docker e Docker Compose
 
-### Passos
+- [Node.js 20+](https://nodejs.org/en/download)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows, Mac ou Linux)
+- [Git](https://git-scm.com/downloads)
+
+---
+
+### 🐧 Linux / macOS
 
 ```bash
-# 1. Clone e instale
+# 1. Clone o repositório
 git clone https://github.com/fernandogrimello/fleetflow.git
 cd fleetflow
 
-# 2. Suba o banco
+# 2. Suba o banco de dados
 docker-compose up -d postgres
 
 # 3. Configure as variáveis de ambiente
 cp apps/api/.env.example apps/api/.env
-# Edite apps/api/.env com suas credenciais
+# Abra o arquivo apps/api/.env e preencha com suas credenciais
 
 # 4. Execute as migrations e o seed
 cd apps/api
@@ -135,9 +139,42 @@ npx prisma migrate dev
 docker exec -i fleetflow_postgres psql -U fleetflow -d fleetflow_db < prisma/seed.sql
 
 # 5. Inicie os servidores
-npm run dev                  # backend na porta 3001
-cd ../web && npm run dev     # frontend na porta 3000
+npm run dev                   # backend na porta 3001
+cd ../web && npm run dev      # frontend na porta 3000
 ```
+
+---
+
+### 🪟 Windows (PowerShell)
+
+```powershell
+# 1. Clone o repositório
+git clone https://github.com/fernandogrimello/fleetflow.git
+cd fleetflow
+
+# 2. Suba o banco de dados (Docker Desktop deve estar aberto)
+docker-compose up -d postgres
+
+# 3. Configure as variáveis de ambiente
+copy apps\api\.env.example apps\api\.env
+# Abra o arquivo apps\api\.env no Bloco de Notas ou VS Code e preencha com suas credenciais
+
+# 4. Execute as migrations
+cd apps\api
+npx prisma migrate dev
+
+# 5. Execute o seed (no PowerShell o redirecionamento é diferente)
+Get-Content prisma\seed.sql | docker exec -i fleetflow_postgres psql -U fleetflow -d fleetflow_db
+
+# 6. Inicie o backend
+npm run dev
+
+# 7. Em outro terminal, inicie o frontend
+cd ..\web
+npm run dev
+```
+
+> ⚠️ **Windows:** Certifique-se de que o Docker Desktop está em execução antes de rodar os comandos acima.
 
 Acesse: http://localhost:3000
 
