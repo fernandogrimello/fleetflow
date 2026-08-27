@@ -2,7 +2,7 @@
 
 # FleetFlow (Em construção)
 
-**Sistema de gestao de frota de veiculos para locacao**
+**Sistema de gestao de frota de veículos para locação**
 
 [![CI](https://github.com/fernandogrimello/fleetflow/actions/workflows/ci.yml/badge.svg)](https://github.com/fernandogrimello/fleetflow/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/Licenca-Visualizacao_apenas-red.svg)](LICENSE)
